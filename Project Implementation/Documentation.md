@@ -30,3 +30,13 @@
 
    NOTE: This basically adds 4 months to the Date Month and then extracts the Year out of the result. Our financial year starts in Sep hence we add 4 months.
 4. Filter out the fiscal_year column for 2023 values since we have incomplete data for it.
+
+`Step 2: Creating Last Sales Month Reference Table`
+
+1. Create a reference table from the fact_sales_monthly table. Extract the date column by editing the source step code to: #"gdb041 fact_sales_monthly"[date]
+2. Calculate the Last Sales Month table by getting the maximum date value from the column using: = List.Max(#"gdb041 fact_sales_monthly"[date])
+
+`Step 3: Creating Remaining Forecast Reference Table`
+
+1. Create a reference table from the fact_forecast_monthly table. Sort the table ascending by date values.
+2. Filter for all the data after the Last Sales Month value using M code: Table.SelectRows(Source, each ([date] > last_sales_month))
