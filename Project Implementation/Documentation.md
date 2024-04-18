@@ -5,6 +5,7 @@
 
 ## Table of Contents
 - [Phase 1: Data Wrangling](#phase-1-data-wrangling)
+- [Phase 2: ETL with Power Query](#phase-2-etl-with-power-query)
 
 ---
 
