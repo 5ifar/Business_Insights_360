@@ -21,6 +21,8 @@
 
 - Get Data → MySQL Database → Server: localhost & Database: gdb041 & gdb056 → Load all the tables
 
+---
+
 ## Phase 2: ETL with Power Query
 
 `Step 1: Creating custom Date Table`
@@ -57,3 +59,14 @@ Logic: Gross Price - Pre-invoice Deductions = Net Invoice Sales → Net Invoice 
 4. Now Merge the fact_actuals&estimates table and the pre_invoice_deductions table based on 2 columns: customer_code and fiscal_year with a Left Outer Join. Expand the merged columns to show only pre_invoice_discount_pct without the reference name. Set the data type as Percentage.
 5. Add a custom calculated column pre_invoice_discount that is the product of pre_invoice_discount_pct and gross_sales columns. Set the data type as Currency.
 6. Add a custom calculated column net_invoice_sales that is the difference between gross_sales and pre_invoice_discount columns. Set the data type as Currency.
+
+---
+
+## Phase 3: Data Modelling & Calculated Columns
+
+`Step 1: Normalizing Data in Tables`
+
+- When the Data Engineer provided us the raw data, it was de-normalized and hence the fact tables contain redundant data like customer name and product name.
+- This redundant data increases the data refresh time and hence needs to be handled by Power Query:
+fact_sales_monthly Table: Choose Columns → Uncheck customer_name, channel, platform, market, product, category & division columns.
+fact_forecast_monthly Table: Choose Columns → Uncheck customer_name, channel, platform, market, product, category & division columns.
