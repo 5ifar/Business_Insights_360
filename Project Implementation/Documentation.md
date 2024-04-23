@@ -91,3 +91,28 @@ fact_forecast_monthly Table: Choose Columns → Uncheck customer_name, channel, 
 |product_code(dim_product)|→|product_code(manufacturing_cost)|
 |market(dim_market)|→|market(dim_customer)|
 |market(dim_market)|→|market(freight_cost)|
+
+`Step 3: Creating fiscal_year table using DAX`
+
+- We want to create table relationships for fiscal year values, fiscal_year(dim_date) → fiscal_year(freight_cost) however this leads to a many-to-many relationship which is not advised.
+- Hence we need a separate fiscal year table that would contain unique values. Data View → New Table → DAX: fiscal_year = ALLNOBLANKROW(dim_date[fiscal_year])
+- Table Relationships: fiscal_year(fiscal_year) → fiscal_year(dim_date)     &     fiscal_year(fiscal_year) → fiscal_year(freight_cost)     &     fiscal_year(fiscal_year) → cost_year(manufacturing_cost)
+
+`Step 4: Calculated Columns for post_invoice Calculations`
+
+1. We now need to get the Post invoice deductions data into the fact_actuals&estimates table. 
+
+   For this DAX Calculated Column: post_invoice_deductions_pct = CALCULATE(MAX(post_invoice_deductions[discounts_pct]), RELATEDTABLE(post_invoice_deductions))
+
+   NOTE: This could have also be done simply by merging both tables based on product_code, customer_code and date as merging parameters.
+2. To the get the numeric value instead of pct we’ll multiple it with the net_invoice_sales value to get the updated DAX Calculated Column. Set the data type as Currency.
+
+   post_invoice_deductions = var pct = CALCULATE(MAX(post_invoice_deductions[discounts_pct]), RELATEDTABLE(post_invoice_deductions))
+   return pct*'fact_actuals&estimates'[net_invoice_sales]
+3. We’ll create similar DAX Calculated Column for the other deductions amount. Set the data type as Currency.
+
+   post_invoice_other_deductions = var pct = CALCULATE(MAX(post_invoice_deductions[other_deductions_pct]), RELATEDTABLE(post_invoice_deductions))
+   return pct*'fact_actuals&estimates'[net_invoice_sales]
+4. Now Net Sales will be all Post Invoice Deductions subtracted from Net Invoice Sales. Set the data type as Currency.
+
+   DAX: net_sales = 'fact_actuals&estimates'[net_invoice_sales]-'fact_actuals&estimates'[post_invoice_deductions]-'fact_actuals&estimates'[post_invoice_other_deductions]
