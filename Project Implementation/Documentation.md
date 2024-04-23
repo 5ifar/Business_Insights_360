@@ -71,3 +71,23 @@ Logic: Gross Price - Pre-invoice Deductions = Net Invoice Sales → Net Invoice 
 - This redundant data increases the data refresh time and hence needs to be handled by Power Query:
 fact_sales_monthly Table: Choose Columns → Uncheck customer_name, channel, platform, market, product, category & division columns.
 fact_forecast_monthly Table: Choose Columns → Uncheck customer_name, channel, platform, market, product, category & division columns.
+
+`Step 2: Creating Table Relationships`
+
+|Primary Key (Dimension table) (1)||Secondary Key (Fact table) (*)|
+|-|-|-|
+|date (dim_date)|→|date(fact_sales_monthly)|
+|date (dim_date)|→|date(fact_forecast_monthly)|
+|date (dim_date)|→|date(fact_actuals&estimates)|
+|date (dim_date)|→|date(post_invoice_deductions)|
+|customer_code(dim_customer)|→|customer_code(fact_sales_monthly)|
+|customer_code(dim_customer)|→|customer_code(fact_forecast_monthly)|
+|customer_code(dim_customer)|→|customer_code(fact_actuals&estimates)|
+|customer_code(dim_customer)|→|customer_code(post_invoice_deductions)|
+|product_code(dim_product)|→|product_code(fact_sales_monthly)|
+|product_code(dim_product)|→|product_code(fact_forecast_monthly)|
+|product_code(dim_product)|→|product_code(fact_actuals&estimates)|
+|product_code(dim_product)|→|product_code(post_invoice_deductions)|
+|product_code(dim_product)|→|product_code(manufacturing_cost)|
+|market(dim_market)|→|market(dim_customer)|
+|market(dim_market)|→|market(freight_cost)|
