@@ -116,3 +116,34 @@ fact_forecast_monthly Table: Choose Columns → Uncheck customer_name, channel, 
 4. Now Net Sales will be all Post Invoice Deductions subtracted from Net Invoice Sales. Set the data type as Currency.
 
    DAX: net_sales = 'fact_actuals&estimates'[net_invoice_sales]-'fact_actuals&estimates'[post_invoice_deductions]-'fact_actuals&estimates'[post_invoice_other_deductions]
+
+`Step 5: Calculated Columns for COGS & Gross Margin Calculations`
+
+1. We’ll calculate the Manufacturing Cost based on Qty of each Product. Set the data type as Currency.
+
+   DAX Calculated Column: manufacturing_cost = var res = CALCULATE(MAX(manufacturing_cost[manufacturing_cost]), RELATEDTABLE(manufacturing_cost))
+   return res*'fact_actuals&estimates'[qty]
+2. We’ll calculate the Freight Cost on the Net Sales value. Set the data type as Currency.
+
+   DAX Calculated Column: freight_cost = var pct = CALCULATE(MAX(freight_cost[freight_pct]), RELATEDTABLE(freight_cost))
+   return pct*'fact_actuals&estimates'[net_sales]
+3. We’ll calculate the Other Cost on the Net Sales value. Set the data type as Currency.
+   
+   DAX Calculated Column: other_cost = var pct = CALCULATE(MAX(freight_cost[other_cost_pct]), RELATEDTABLE(freight_cost))
+   return pct*'fact_actuals&estimates'[net_sales]
+4. We’ll calculate Cost of Goods Sold (COGS) = Manufacturing Cost + Freight (Transportation) + Other Costs. Set the data type as Currency.
+
+   DAX Calculated Column: cogs = 'fact_actuals&estimates'[manufacturing_cost]+'fact_actuals&estimates'[freight_cost]+'fact_actuals&estimates'[other_cost]
+5. Finally Gross Margin is the difference between Net Sales and COGS. Set the data type as Currency.
+
+   DAX Calculated Column: gross_margin = 'fact_actuals&estimates'[net_sales]-'fact_actuals&estimates'[cogs]
+6. Gross Margin % will be calculated over the Net Sales value. Set the data type as Percentage.
+
+   DAX Calculated Column: gross_margin% = DIVIDE('fact_actuals&estimates'[gross_margin], 'fact_actuals&estimates'[net_sales], 0)
+
+`Step 6: Optimizing Report File Size`
+
+- Since the fact_actuals&estimates table is taking up to 73.5% of the file space, we need to remove some columns that are taking up cache space in the pbix file such that they can be dynamically calculated from the MySQL server as and when required.
+    - Remove gross_price, pre_invoice_discount_pct, pre_invoice_discount in Power Query Editor.
+- Columns created in PBI Frontend using DAX take up more space that those created in Power Query since it has a efficient data compression engine. Hence to save significant space we’ll remove some DAX columns that can be calculated later adhoc when required.
+    - Remove cogs (since this is basically the sum of 3 columns), gross_margin and gross_margin% columns from the Data Model.
