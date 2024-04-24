@@ -147,3 +147,12 @@ fact_forecast_monthly Table: Choose Columns → Uncheck customer_name, channel, 
     - Remove gross_price, pre_invoice_discount_pct, pre_invoice_discount in Power Query Editor.
 - Columns created in PBI Frontend using DAX take up more space that those created in Power Query since it has a efficient data compression engine. Hence to save significant space we’ll remove some DAX columns that can be calculated later adhoc when required.
     - Remove cogs (since this is basically the sum of 3 columns), gross_margin and gross_margin% columns from the Data Model.
+
+---
+
+## Phase 4: Finance View
+
+`Step 1: Creating Measures Table`
+
+- To collect all report measures in a single place we’ll create a measures table to store all the measures together.
+- Data View → Enter Data → Rename as measure.
