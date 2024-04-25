@@ -162,19 +162,19 @@ fact_forecast_monthly Table: Choose Columns → Uncheck customer_name, channel, 
 
 - Gross Sales Measure: GS $ = SUM('fact_actuals&estimates'[gross_sales])
 - Net Invoice Sales Measure: NIS $ = SUM('fact_actuals&estimates'[net_invoice_sales])
-- Pre-Invoice Deduction Measure: Pre-Invoice Deduction $ = [GS $] - [NIS $]
+- Pre-Invoice Deduction Measure: Pre-Invoice Deduction $ = [GS $ ] - [NIS $ ]
 - Post-Invoice Deduction Measure: Post-Invoice Deduction $ = SUM('fact_actuals&estimates'[post_invoice_deductions])
 - Post-Invoice Other Deduction Measure: Post-Invoice Other Deduction $ = SUM('fact_actuals&estimates'[post_invoice_other_deductions])
-- Total Post-Invoice Deduction Measure: Total Post-Invoice Deduction $ = [Post-Invoice Deduction $] + [Post-Invoice Other Deduction $]
+- Total Post-Invoice Deduction Measure: Total Post-Invoice Deduction $ = [Post-Invoice Deduction $ ] + [Post-Invoice Other Deduction $ ]
 - Net Sales Measure: NS $ = SUM('fact_actuals&estimates'[net_sales])
 - Manufacturing Cost Measure: Manufacturing Cost $ = SUM('fact_actuals&estimates'[manufacturing_cost])
 - Freight Cost Measure: Freight Cost $ = SUM('fact_actuals&estimates'[freight_cost])
 - Other Cost Measure: Other Cost $ = SUM('fact_actuals&estimates'[other_cost])
-- Cost of Goods Sold Measure: COGS $ = [Manufacturing Cost $] + [Freight Cost $] + [Other Cost $]
-- Gross Margin Measure: GM $ = [NS $] - [COGS $]
-- Gross Margin % Measure: GM % = DIVIDE([GM $], [NS $], 0)
+- Cost of Goods Sold Measure: COGS $ = [Manufacturing Cost $ ] + [Freight Cost $ ] + [Other Cost $ ]
+- Gross Margin Measure: GM $ = [NS $ ] - [COGS $ ]
+- Gross Margin % Measure: GM % = DIVIDE([GM $ ], [NS $ ], 0)
 - Quantity/Units Measure: Quantity = SUM('fact_actuals&estimates'[qty])
-- Gross Margin per Unit Measure: GM / Unit = DIVIDE([GM $], [Quantity], 0)
+- Gross Margin per Unit Measure: GM / Unit = DIVIDE([GM $ ], [Quantity], 0)
 
 `Step 3: Creating P & L Rows Table`
 
