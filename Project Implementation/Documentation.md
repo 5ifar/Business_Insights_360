@@ -240,3 +240,26 @@ Logic: Gross Price - Pre-invoice Deductions = Net Invoice Sales → Net Invoice 
    MAX('P&L Columns'[Col Header])="LY", [P&L LY],
    MAX('P&L Columns'[Col Header])="YoY Chg",[P&L YoY Chg],
    MAX('P&L Columns'[Col Header])="YoY Chg %",[P&L YoY Chg %])
+
+`Step 5: Configuring Quarters & YTD/YTG Slicers`
+
+AtliQ’s Financial Year starts is from Sep to Aug.
+
+1. We’ll create a new column in the dim_date table which will contain the fiscal month number obtained by adding 4 months to the dates and extracting the month part of it.
+
+   DAX Calculated Column: fy_month_num = MONTH(DATE(YEAR(dim_date[date]), MONTH(dim_date[date])+4, 1))
+2. To calculate the quarters we need to divide the fiscal month nbr by 3 and round it up to the next integer. 
+   
+   DAX Calculated Column: quarters = “Q” & ROUNDUP(dim_date[fy_month_num]/3, 0)
+
+   Add this Calculated Column as a Tile Slicer to the Finance View.
+3. Now Sep 1st to the last sales date will be YTD, and the rest of the days until 31st August should be YTG. 
+   Hence, the logic for generating YTD and YTG is when a date in the date column is greater than the last sales then it is YTG, otherwise it is YTD.
+4. However, if you compare the date column with the last sales date you will get the YTD and YTG only for the current fiscal year which is 2022. Since you need it for all fiscal years – a column that works for all fiscal years is needed i.e. a column that is not attributed to the year but just the months. You can see that it has the fiscal year month number which is the same for all fiscal years. i.e fy_month_num for Dec 21 and Dec 20 is the same as it takes the month into the account and not the year. So, we will compare the fy_month_num of the date column vs fy_month_num of the last sales date to find if a given date is YTD or YTG.
+5. Now we need to use the if condition to check whether the fy_month_num of a date is greater than FYMONTHNUM of last sales date in order to assign it as YTG or else YTD.
+
+   DAX Calculated Column: ytd_ytg = var LASTSALESDATE = MAX(fact_sales_monthly[date])
+   var FYMONTHNUM = MONTH(DATE(YEAR(LASTSALESDATE), MONTH(LASTSALESDATE)+4, 1))
+   RETURN IF(dim_date[fy_month_num] > FYMONTHNUM, "YTG", "YTD")
+   
+   Add this Calculated Column as a Tile Slicer to the Finance View.
