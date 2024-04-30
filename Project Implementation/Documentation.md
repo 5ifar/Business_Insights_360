@@ -70,8 +70,8 @@ Logic: Gross Price - Pre-invoice Deductions = Net Invoice Sales → Net Invoice 
 
 - When the Data Engineer provided us the raw data, it was de-normalized and hence the fact tables contain redundant data like customer name and product name.
 - This redundant data increases the data refresh time and hence needs to be handled by Power Query:
-fact_sales_monthly Table: Choose Columns → Uncheck customer_name, channel, platform, market, product, category & division columns.
-fact_forecast_monthly Table: Choose Columns → Uncheck customer_name, channel, platform, market, product, category & division columns.
+   fact_sales_monthly Table: Choose Columns → Uncheck customer_name, channel, platform, market, product, category & division columns.
+   fact_forecast_monthly Table: Choose Columns → Uncheck customer_name, channel, platform, market, product, category & division columns.
 
 `Step 2: Creating Table Relationships`
 
@@ -216,3 +216,27 @@ fact_forecast_monthly Table: Choose Columns → Uncheck customer_name, channel, 
    MAX('P & L Rows'[Order])=14,  [GM / Unit])
 4. In the Data View → P & L Rows Table → Sort by Column → Order → Fixes the Line Item Order in the visual. Remove Row Subtotals.
 5. Create Last Year Measure using the SAMEPERIODLASTYEAR Fn in the Filter context: P&L LY = CALCULATE([P & L Values], SAMEPERIODLASTYEAR(dim_date[date]))
+6. Since our sales_actuals&estimates data has both actual and estimate data we want to show the fiscal years for which estimate is shown with a “Est” suffix. For this we can create a calculated column in the fiscal_year table that will dynamically concatenate the suffix to the latest date year. DAX Calculated Column:
+   
+   fy_desc = var MAXDATE = CALCULATE(MAX(fiscal_year[fiscal_year]), ALL(fiscal_year[fiscal_year]))
+   RETURN IF(fiscal_year[fiscal_year] = MAXDATE, MAXDATE & " Est", fiscal_year[fiscal_year])
+   
+   Configure the Calculated Column as a Tile Slicer with Single Select option.
+7. To compare the Last Year performance with Current year we would require a measure that calculates the difference in values. DAX Measure: P&L YoY Chg = [P&L Values] - [P&L LY]
+   To compare the performance change in percentage. DAX Measure: P&L YoY Chg % = DIVIDE([P&L YoY Chg], [P&L LY], 0) * 100
+8. We want the P&L Values Column to show dynamic year based on the year selected in the slicer, for this we need a dynamic table with a column that contains all these values.
+   We will create table P&L Columns with column Col Header that will contain all the fiscal years as well as the LY, YoY Chg & Yoy Chg % values.
+   
+   DAX Code: P&L Columns = var fy = ALLNOBLANKROW(fiscal_year[fy_desc])
+   RETURN UNION( ROW("Col Header", "LY"), ROW("Col Header", "YoY Chg"), ROW("Col Header", "YoY Chg %"), fy)
+
+   This table has all the possible column header values however we still need to dynamically display the fiscal year based on the fy selected in the slicer. For this we’ll have to use the       SELECTEDVALUE Fn in a Measure to get the fy selected in the slicer and fetch the corresponding column header from the P&L Columns table.
+
+   DAX Measure: P&L Final Value = SWITCH(TRUE(), SELECTEDVALUE(fiscal_year[fy_desc]) = MAX('P&L Columns'[Col Header]), [P&L Values])
+
+   We also need to show to corresponding LY, YoY Chg and YoY Chg % values based on the FY selected based on the Filter context using their individual measures.
+
+   Updated DAX Measure: P&L Final Value = SWITCH(TRUE( ), SELECTEDVALUE(fiscal_year[fy_desc])=MAX('P&L Columns'[Col Header]), [P&L Values],
+   MAX('P&L Columns'[Col Header])="LY", [P&L LY],
+   MAX('P&L Columns'[Col Header])="YoY Chg",[P&L YoY Chg],
+   MAX('P&L Columns'[Col Header])="YoY Chg %",[P&L YoY Chg %])
