@@ -180,3 +180,39 @@ fact_forecast_monthly Table: Choose Columns → Uncheck customer_name, channel, 
 
 1. Copy the P & L Table Structure from the excel file.
 2. Data view →Enter Data → Paste → Rename as P & L Rows.
+
+`Step 4: Building P&L Matrix visual`
+
+1. Create a Matrix visual with ‘P & L Rows’[Line Item] as Row Parameter.
+2. Now we need the corresponding values of line items in the next column, we can do this by using the SWITCH Fn to create a measure and binding the values to be shown based on the Order value of the Line Item.
+3. P & L Values DAX Measure: P&L Values = SWITCH(TRUE( ),
+
+   MAX('P & L Rows'[Order])=1,  [GS $ ]/1000000,
+   
+   MAX('P & L Rows'[Order])=2,  [Pre-Invoice Deduction $ ]/1000000,
+   
+   MAX('P & L Rows'[Order])=3,  [NIS $ ]/1000000,
+
+   MAX('P & L Rows'[Order])=4,  [Post-Invoice Deduction $ ]/1000000,
+
+   MAX('P & L Rows'[Order])=5,  [Post-Invoice Other Deduction $ ]/1000000,
+
+   MAX('P & L Rows'[Order])=6,  [Total Post-Invoice Deduction $ ]/1000000,
+
+   MAX('P & L Rows'[Order])=7,  [NS $ ]/1000000,
+
+   MAX('P & L Rows'[Order])=8,  [Manufacturing Cost $ ]/1000000,
+
+   MAX('P & L Rows'[Order])=9,  [Freight Cost $ ]/1000000,
+
+   MAX('P & L Rows'[Order])=10,  [Other Cost $ ]/1000000,
+
+   MAX('P & L Rows'[Order])=11,  [COGS $ ]/1000000,
+
+   MAX('P & L Rows'[Order])=12,  [GM $ ]/1000000,
+
+   MAX('P & L Rows'[Order])=13,  [GM %]*100,
+
+   MAX('P & L Rows'[Order])=14,  [GM / Unit])
+4. In the Data View → P & L Rows Table → Sort by Column → Order → Fixes the Line Item Order in the visual. Remove Row Subtotals.
+5. Create Last Year Measure using the SAMEPERIODLASTYEAR Fn in the Filter context: P&L LY = CALCULATE([P & L Values], SAMEPERIODLASTYEAR(dim_date[date]))
