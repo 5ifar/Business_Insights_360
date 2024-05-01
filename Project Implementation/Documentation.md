@@ -263,3 +263,42 @@ AtliQ’s Financial Year starts is from Sep to Aug.
    RETURN IF(dim_date[fy_month_num] > FYMONTHNUM, "YTG", "YTD")
    
    Add this Calculated Column as a Tile Slicer to the Finance View.
+
+`Step 6: Building P&L Performance over Time visual`
+
+1. Add a clustered column chart visual with P&L Values Measure on the Y Axis and date on the X Axis. Format the X Axis type as Categorical to see distinct columns for all months.
+2. Format the date as mmm yy format to show shortened dates in the visual.
+3. Change the report setting to select Change default visual interaction from cross highlighting to cross filtering to avoid highlighting when filtering based on a single line item of P&L       Values.
+4. Currently if we dont select any line item it shows a total of all P&L Values by default which is not very useful. We want the default to be Net Sales, for this we need to edit the P&L Values measure and add a condition to ensure Net Sales is selected when no line item is selected. Updated P&L Values Measure: P&L Values = 
+   
+   var res = SWITCH(TRUE( ),
+
+   MAX('P&L Rows'[Order])=1,  [GS $]/1000000,
+
+   MAX('P&L Rows'[Order])=2,  [Pre-Invoice Deduction $]/1000000,
+
+   MAX('P&L Rows'[Order])=3,  [NIS $]/1000000,
+
+   MAX('P&L Rows'[Order])=4,  [Post-Invoice Deduction $]/1000000,
+
+   MAX('P&L Rows'[Order])=5,  [Post-Invoice Other Deduction $]/1000000,
+
+   MAX('P&L Rows'[Order])=6,  [Total Post-Invoice Deduction $]/1000000,
+
+   MAX('P&L Rows'[Order])=7,  [NS $]/1000000,
+
+   MAX('P&L Rows'[Order])=8,  [Manufacturing Cost $]/1000000,
+
+   MAX('P&L Rows'[Order])=9,  [Freight Cost $]/1000000,
+
+   MAX('P&L Rows'[Order])=10,  [Other Cost $]/1000000,
+
+   MAX('P&L Rows'[Order])=11,  [COGS $]/1000000,
+
+   MAX('P&L Rows'[Order])=12,  [GM $]/1000000,
+
+   MAX('P&L Rows'[Order])=13,  [GM %]*100,
+
+   MAX('P&L Rows'[Order])=14,  [GM / Unit])
+
+   RETURN IF(HASONEVALUE('P&L Rows'[Description]), res, [NS $]/1000000)
