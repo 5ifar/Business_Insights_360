@@ -311,3 +311,10 @@ AtliQ’s Financial Year starts is from Sep to Aug.
 7. We also need t compare performance figures from last year so we’ll add the P&L LY Measure before the P&L Values measure on Y Axis.
 8. Since our objective behind this visual was to compare the performance over time, using an Area Chart here would be better since its good for comparing values over time as well as total value using the plot area.
 9. Formatting for Area chart: Move Legend position to Top Center. Remove X  & Y Axis Titles.
+
+`Step 7: Building Top Market & Product visuals`
+
+1. Add a Matrix visual with market & customer fields as Rows and P&L Values & P&L YoY Chg % Measures as Values.
+2. Formatting for Matrix visual: Disable Row & Column Subtotals. 
+3. Add a Matrix visual with segment, category & product fields as Rows and P&L Values & P&L YoY Chg % Measures as Values.
+4. Formatting for Matrix visual: Disable Row & Column Subtotals.
