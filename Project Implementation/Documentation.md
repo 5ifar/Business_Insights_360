@@ -302,3 +302,12 @@ AtliQ’s Financial Year starts is from Sep to Aug.
    MAX('P&L Rows'[Order])=14,  [GM / Unit])
 
    RETURN IF(HASONEVALUE('P&L Rows'[Description]), res, [NS $]/1000000)
+5. Now the visual shows the data for the line item selected but the title does not get updated automatically. For this we need to create another measure which will provide title as per          selection that is made out of the line items.
+
+   DAX Measure: P&L Selected Row = IF(HASONEVALUE('P&L Rows'[Description]), SELECTEDVALUE('P&L Rows'[Description]), "Net Sales")
+
+   We’ll then create a supporting Measure to customize the title for specific visual: Performance Visual Title = [P&L Selected Row] & " Performance over Time”
+6. Now we’ll update this Performance Visual Title measure as the parameter to base the Title on using the Title fx Conditional Formatting.
+7. We also need t compare performance figures from last year so we’ll add the P&L LY Measure before the P&L Values measure on Y Axis.
+8. Since our objective behind this visual was to compare the performance over time, using an Area Chart here would be better since its good for comparing values over time as well as total value using the plot area.
+9. Formatting for Area chart: Move Legend position to Top Center. Remove X  & Y Axis Titles.
