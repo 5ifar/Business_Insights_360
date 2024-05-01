@@ -318,3 +318,13 @@ AtliQ’s Financial Year starts is from Sep to Aug.
 2. Formatting for Matrix visual: Disable Row & Column Subtotals. 
 3. Add a Matrix visual with segment, category & product fields as Rows and P&L Values & P&L YoY Chg % Measures as Values.
 4. Formatting for Matrix visual: Disable Row & Column Subtotals.
+
+`Step 8: Importing Operating Expenses Data`
+
+- Get Data → Excel Workbook → Select the Operational Expenses Excel File → Transform → Rename to operational_expense → Any transformation if required → Load
+- Data Modelling:
+
+|Primary Key (Dimension table) (1)||Secondary Key (Fact table) (*)|
+|-|-|-|
+|fiscal_year (fiscal_year)|→|fiscal_year (operational_expense)|
+|market (dim_market)|→|market (operational_expense)|
