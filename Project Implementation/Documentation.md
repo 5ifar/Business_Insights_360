@@ -70,8 +70,10 @@ Logic: Gross Price - Pre-invoice Deductions = Net Invoice Sales → Net Invoice 
 
 - When the Data Engineer provided us the raw data, it was de-normalized and hence the fact tables contain redundant data like customer name and product name.
 - This redundant data increases the data refresh time and hence needs to be handled by Power Query:
-   fact_sales_monthly Table: Choose Columns → Uncheck customer_name, channel, platform, market, product, category & division columns.
-   fact_forecast_monthly Table: Choose Columns → Uncheck customer_name, channel, platform, market, product, category & division columns.
+  
+  fact_sales_monthly Table: Choose Columns → Uncheck customer_name, channel, platform, market, product, category & division columns.
+  
+  fact_forecast_monthly Table: Choose Columns → Uncheck customer_name, channel, platform, market, product, category & division columns.
 
 `Step 2: Creating Table Relationships`
 
@@ -109,10 +111,12 @@ Logic: Gross Price - Pre-invoice Deductions = Net Invoice Sales → Net Invoice 
 2. To the get the numeric value instead of pct we’ll multiple it with the net_invoice_sales value to get the updated DAX Calculated Column. Set the data type as Currency.
 
    post_invoice_deductions = var pct = CALCULATE(MAX(post_invoice_deductions[discounts_pct]), RELATEDTABLE(post_invoice_deductions))
+   
    return pct*'fact_actuals&estimates'[net_invoice_sales]
 3. We’ll create similar DAX Calculated Column for the other deductions amount. Set the data type as Currency.
 
    post_invoice_other_deductions = var pct = CALCULATE(MAX(post_invoice_deductions[other_deductions_pct]), RELATEDTABLE(post_invoice_deductions))
+   
    return pct*'fact_actuals&estimates'[net_invoice_sales]
 4. Now Net Sales will be all Post Invoice Deductions subtracted from Net Invoice Sales. Set the data type as Currency.
 
@@ -123,14 +127,17 @@ Logic: Gross Price - Pre-invoice Deductions = Net Invoice Sales → Net Invoice 
 1. We’ll calculate the Manufacturing Cost based on Qty of each Product. Set the data type as Currency.
 
    DAX Calculated Column: manufacturing_cost = var res = CALCULATE(MAX(manufacturing_cost[manufacturing_cost]), RELATEDTABLE(manufacturing_cost))
+   
    return res*'fact_actuals&estimates'[qty]
 2. We’ll calculate the Freight Cost on the Net Sales value. Set the data type as Currency.
 
    DAX Calculated Column: freight_cost = var pct = CALCULATE(MAX(freight_cost[freight_pct]), RELATEDTABLE(freight_cost))
+   
    return pct*'fact_actuals&estimates'[net_sales]
 3. We’ll calculate the Other Cost on the Net Sales value. Set the data type as Currency.
    
    DAX Calculated Column: other_cost = var pct = CALCULATE(MAX(freight_cost[other_cost_pct]), RELATEDTABLE(freight_cost))
+   
    return pct*'fact_actuals&estimates'[net_sales]
 4. We’ll calculate Cost of Goods Sold (COGS) = Manufacturing Cost + Freight (Transportation) + Other Costs. Set the data type as Currency.
 
@@ -179,7 +186,7 @@ Logic: Gross Price - Pre-invoice Deductions = Net Invoice Sales → Net Invoice 
 `Step 3: Creating P & L Rows Table`
 
 1. Copy the P & L Table Structure from the excel file.
-2. Data view →Enter Data → Paste → Rename as P & L Rows.
+2. Data view → Enter Data → Paste → Rename as P & L Rows.
 
 `Step 4: Building P&L Matrix visual`
 
@@ -219,6 +226,7 @@ Logic: Gross Price - Pre-invoice Deductions = Net Invoice Sales → Net Invoice 
 6. Since our sales_actuals&estimates data has both actual and estimate data we want to show the fiscal years for which estimate is shown with a “Est” suffix. For this we can create a calculated column in the fiscal_year table that will dynamically concatenate the suffix to the latest date year. DAX Calculated Column:
    
    fy_desc = var MAXDATE = CALCULATE(MAX(fiscal_year[fiscal_year]), ALL(fiscal_year[fiscal_year]))
+   
    RETURN IF(fiscal_year[fiscal_year] = MAXDATE, MAXDATE & " Est", fiscal_year[fiscal_year])
    
    Configure the Calculated Column as a Tile Slicer with Single Select option.
@@ -228,6 +236,7 @@ Logic: Gross Price - Pre-invoice Deductions = Net Invoice Sales → Net Invoice 
    We will create table P&L Columns with column Col Header that will contain all the fiscal years as well as the LY, YoY Chg & Yoy Chg % values.
    
    DAX Code: P&L Columns = var fy = ALLNOBLANKROW(fiscal_year[fy_desc])
+   
    RETURN UNION( ROW("Col Header", "LY"), ROW("Col Header", "YoY Chg"), ROW("Col Header", "YoY Chg %"), fy)
 
    This table has all the possible column header values however we still need to dynamically display the fiscal year based on the fy selected in the slicer. For this we’ll have to use the       SELECTEDVALUE Fn in a Measure to get the fy selected in the slicer and fetch the corresponding column header from the P&L Columns table.
@@ -237,8 +246,11 @@ Logic: Gross Price - Pre-invoice Deductions = Net Invoice Sales → Net Invoice 
    We also need to show to corresponding LY, YoY Chg and YoY Chg % values based on the FY selected based on the Filter context using their individual measures.
 
    Updated DAX Measure: P&L Final Value = SWITCH(TRUE( ), SELECTEDVALUE(fiscal_year[fy_desc])=MAX('P&L Columns'[Col Header]), [P&L Values],
+   
    MAX('P&L Columns'[Col Header])="LY", [P&L LY],
+   
    MAX('P&L Columns'[Col Header])="YoY Chg",[P&L YoY Chg],
+   
    MAX('P&L Columns'[Col Header])="YoY Chg %",[P&L YoY Chg %])
 
 `Step 5: Configuring Quarters & YTD/YTG Slicers`
@@ -258,8 +270,12 @@ AtliQ’s Financial Year starts is from Sep to Aug.
 4. However, if you compare the date column with the last sales date you will get the YTD and YTG only for the current fiscal year which is 2022. Since you need it for all fiscal years – a column that works for all fiscal years is needed i.e. a column that is not attributed to the year but just the months. You can see that it has the fiscal year month number which is the same for all fiscal years. i.e fy_month_num for Dec 21 and Dec 20 is the same as it takes the month into the account and not the year. So, we will compare the fy_month_num of the date column vs fy_month_num of the last sales date to find if a given date is YTD or YTG.
 5. Now we need to use the if condition to check whether the fy_month_num of a date is greater than FYMONTHNUM of last sales date in order to assign it as YTG or else YTD.
 
-   DAX Calculated Column: ytd_ytg = var LASTSALESDATE = MAX(fact_sales_monthly[date])
+   DAX Calculated Column: ytd_ytg = 
+   
+   var LASTSALESDATE = MAX(fact_sales_monthly[date])
+   
    var FYMONTHNUM = MONTH(DATE(YEAR(LASTSALESDATE), MONTH(LASTSALESDATE)+4, 1))
+   
    RETURN IF(dim_date[fy_month_num] > FYMONTHNUM, "YTG", "YTD")
    
    Add this Calculated Column as a Tile Slicer to the Finance View.
@@ -328,3 +344,25 @@ AtliQ’s Financial Year starts is from Sep to Aug.
 |-|-|-|
 |fiscal_year (fiscal_year)|→|fiscal_year (operational_expense)|
 |market (dim_market)|→|market (operational_expense)|
+
+`Step 9: Calculated Columns & Measures for Operational Expenses & Net Profit Calculations`
+
+1. We’ll calculate the Ads & Promotions Cost on the Net Sales value. Set the data type as Currency.
+   
+   DAX Calculated Column: ads_promotions = var pct = CALCULATE(MAX(operational_expense[ads_promotions_pct]), RELATEDTABLE(operational_expense))
+   
+   return pct*'fact_actuals&estimates'[net_sales]
+2. We’ll calculate the Other Operational Expenses on the Net Sales value. Set the data type as Currency.
+   
+   DAX Calculated Column: other_operational_expense = var pct = CALCULATE(MAX(operational_expense[other_operational_expense_pct]), RELATEDTABLE(operational_expense))
+   
+   return pct*'fact_actuals&estimates'[net_sales]
+3. Ads & Promotions Expense Measure: Ads & Promotions $ = SUM('fact_actuals&estimates'[ads_promotions])
+4. Other Operational Expense Measure: Other Operational Expense $ = SUM('fact_actuals&estimates'[other_operational_expense])
+5. Operational Expenses Measure: Operational Expense $ = ([Ads & Promotions $] + [Other Operational Expense $]) * -1
+
+   We’ll multiply with -1 to ensure this is treated as unfavorable expense.
+6. Net Profit Measure: Net Profit $ = [GM $] + [Operational Expense $]
+
+   Here we want to subtract the Operational Expense but since it already has negative value we can add it.
+7. Net Profit % Measure: Net Profit % = DIVIDE([Net Profit $], [NS $], 0)
