@@ -359,10 +359,10 @@ AtliQ’s Financial Year starts is from Sep to Aug.
    return pct*'fact_actuals&estimates'[net_sales]
 3. Ads & Promotions Expense Measure: Ads & Promotions $ = SUM('fact_actuals&estimates'[ads_promotions])
 4. Other Operational Expense Measure: Other Operational Expense $ = SUM('fact_actuals&estimates'[other_operational_expense])
-5. Operational Expenses Measure: Operational Expense $ = ([Ads & Promotions $] + [Other Operational Expense $]) * -1
+5. Operational Expenses Measure: Operational Expense $ = ([Ads & Promotions $ ] + [Other Operational Expense $ ]) * -1
 
    We’ll multiply with -1 to ensure this is treated as unfavorable expense.
-6. Net Profit Measure: Net Profit $ = [GM $] + [Operational Expense $]
+6. Net Profit Measure: Net Profit $ = [GM $ ] + [Operational Expense $ ]
 
    Here we want to subtract the Operational Expense but since it already has negative value we can add it.
-7. Net Profit % Measure: Net Profit % = DIVIDE([Net Profit $], [NS $], 0)
+7. Net Profit % Measure: Net Profit % = DIVIDE([Net Profit $ ], [NS $ ], 0)
