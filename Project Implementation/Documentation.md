@@ -366,3 +366,49 @@ AtliQ’s Financial Year starts is from Sep to Aug.
 
    Here we want to subtract the Operational Expense but since it already has negative value we can add it.
 7. Net Profit % Measure: Net Profit % = DIVIDE([Net Profit $ ], [NS $ ], 0)
+
+`Step 10: Updating the P&L visual with Operating Expenses and Net Profit`
+
+1. Since we want to add the 3 fields to the P&L Line items, they need to be appended to the P&L Rows tables that is being used in visual rows field.
+2. In Transform Power Query, go to P&L Rows and in the Source step edit the table to add 3 new rows: Operational Expense (Order: 15), Net Profit (Order: 16) & Net Profit % (Order: 17).
+3. Now we edit the P&L Values Measure to include these 3 new fields. Updated Measure: P&L Values =
+
+   var res = SWITCH(TRUE( ),
+
+   MAX('P&L Rows'[Order])=1,  [GS $]/1000000,
+
+   MAX('P&L Rows'[Order])=2,  [Pre-Invoice Deduction $]/1000000,
+
+   MAX('P&L Rows'[Order])=3,  [NIS $]/1000000,
+
+   MAX('P&L Rows'[Order])=4,  [Post-Invoice Deduction $]/1000000,
+
+   MAX('P&L Rows'[Order])=5,  [Post-Invoice Other Deduction $]/1000000,
+
+   MAX('P&L Rows'[Order])=6,  [Total Post-Invoice Deduction $]/1000000,
+
+   MAX('P&L Rows'[Order])=7,  [NS $]/1000000,
+
+   MAX('P&L Rows'[Order])=8,  [Manufacturing Cost $]/1000000,
+
+   MAX('P&L Rows'[Order])=9,  [Freight Cost $]/1000000,
+
+   MAX('P&L Rows'[Order])=10,  [Other Cost $]/1000000,
+
+   MAX('P&L Rows'[Order])=11,  [COGS $]/1000000,
+
+   MAX('P&L Rows'[Order])=12,  [GM $]/1000000,
+
+   MAX('P&L Rows'[Order])=13,  [GM %]*100,
+
+   MAX('P&L Rows'[Order])=14,  [GM / Unit],
+
+   MAX('P&L Rows'[Order])=15,  [Operational Expense $]/1000000,
+
+   MAX('P&L Rows'[Order])=16,  [Net Profit $]/1000000,
+
+   MAX('P&L Rows'[Order])=17,  [Net Profit %]*100)
+
+   RETURN
+
+   IF(HASONEVALUE('P&L Rows'[Description]), res, [NS $]/1000000)
