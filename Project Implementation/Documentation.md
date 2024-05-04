@@ -412,3 +412,19 @@ AtliQ’s Financial Year starts is from Sep to Aug.
    RETURN
 
    IF(HASONEVALUE('P&L Rows'[Description]), res, [NS $]/1000000)
+
+---
+
+## Phase 5: Sales View
+
+`Step 1: Building Customer Performance visual`
+
+1. Add a Matrix visual with customer field as Rows and Net Sales, Gross Margin & Gross Margin % Measures as values.
+2. Change the display units for NS $ & GM $ to Millions. Format → Specific Column → Select Column → Value Display Unit to Millions with 2 decimal points.
+
+`Step 2: Building Customers GM & NS Plot visual`
+
+1. Copy the Top Customers visual and convert it to Scatter Plot. Add market field before customer field in values to aid drill down and fix congestion. Enable Category labels and Zoom Sliders.
+2. We need Net Sales values as the X Axis and the Gross Margin values as the Y Axis and the Gross Margin % values as the Bubble size. Add region field as the Legend.
+3. Copy the FY, Quarters & YTD-YTG Slicers from Finance View to Sales View and Sync them across pages.
+4. Add an additional Region, Market & Customer fields Dropdown Slicers for country-specific business users.
