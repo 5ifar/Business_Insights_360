@@ -429,3 +429,13 @@ AtliQ’s Financial Year starts is from Sep to Aug.
 2. We need Net Sales values as the X Axis and the Gross Margin values as the Y Axis and the Gross Margin % values as the Bubble size. Add region field as the Legend.
 3. Copy the FY, Quarters & YTD-YTG Slicers from Finance View to Sales View and Sync them across pages.
 4. Add an additional Region, Market & Customer fields Dropdown Slicers for country-specific business users.
+
+`Step 3: Building Product Performance visual`
+
+1. Copy the Customer Performance visual and replace the customer field in Rows by segment, category & product fields to aid drill down on product level.
+
+`Step 4: Building Unit Economics visual`
+
+1. Add a Donut chart with P&L Values measure as the Values and Description field as Legend. Now in the Filters pane, filter the Description field to only show Net Sales, Pre Invoice Deduction & Total Post Invoice Deduction.
+2. Set Detail Labels Display Units as None. Align the legend to top center. Disable legend title.
+3. Copy the above visual and change Description field filter to only show Total COGS & Gross Margin. This is a breakdown of Net Sales from above visual.
