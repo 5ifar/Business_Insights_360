@@ -453,3 +453,12 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
 `Step 2: Building Products GM & NS Plot visual`
 
 - Replace the existing values field by segment, category and product fields. Add division field to the legend.
+
+`Step 3: Building Unit Economics visual`
+
+- Replace the Net Sales and Deduction Donut chart by a Waterfall chart with Gross Margin, Operation Cost & Net Profit fields to show the flow of expenses.
+- Sort the waterfall by P&L Rows Order column such that the Gross Margin is on the left and Net Profit is on right.
+
+`Step 4: Building Market Performance visual`
+
+- Copy the Product Performance visual and change the Rows to region and market fields.
