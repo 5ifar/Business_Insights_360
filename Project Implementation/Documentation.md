@@ -439,3 +439,17 @@ AtliQ’s Financial Year starts is from Sep to Aug.
 1. Add a Donut chart with P&L Values measure as the Values and Description field as Legend. Now in the Filters pane, filter the Description field to only show Net Sales, Pre Invoice Deduction & Total Post Invoice Deduction.
 2. Set Detail Labels Display Units as None. Align the legend to top center. Disable legend title.
 3. Copy the above visual and change Description field filter to only show Total COGS & Gross Margin. This is a breakdown of Net Sales from above visual.
+
+---
+
+## Phase 6: Marketing View
+
+Duplicate the Sales View. Remove the Customer Performance Matrix visual.
+
+`Step 1: Building Product Performance visual`
+
+- Add Net Profit and Net Profit % values to the Product Performance visual copied from Sales View.
+
+`Step 2: Building Products GM & NS Plot visual`
+
+- Replace the existing values field by segment, category and product fields. Add division field to the legend.
