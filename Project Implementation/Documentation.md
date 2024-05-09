@@ -427,7 +427,7 @@ AtliQ’s Financial Year starts is from Sep to Aug.
 `Step 2: Building Customers GM & NS Plot visual`
 
 1. Copy the Top Customers visual and convert it to Scatter Plot. Add market field before customer field in values to aid drill down and fix congestion. Enable Category labels and Zoom Sliders.
-2. We need Net Sales values as the X Axis and the Gross Margin values as the Y Axis and the Gross Margin % values as the Bubble size. Add region field as the Legend.
+2. We need Net Sales values as the X Axis and the Gross Margin % values as the Y Axis and the Gross Margin $ values as the Bubble size. Add region field as the Legend.
 3. Copy the FY, Quarters & YTD-YTG Slicers from Finance View to Sales View and Sync them across pages.
 4. Add an additional Region, Market & Customer fields Dropdown Slicers for country-specific business users.
 
