@@ -463,3 +463,20 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
 `Step 4: Building Market Performance visual`
 
 - Copy the Product Performance visual and change the Rows to region and market fields.
+
+---
+
+## Phase 7: Supply Chain View
+
+`Step 1: Understanding Key Metrics`
+
+- We already have a quantity measure but it is not the actual sales quantity because it has been calculated based on the fact_actuals&estimates that takes into consideration the estimate/forecast data as well. We only need the actual data sales qty.
+- To extract the actual sales qty from the fact_actuals&estimates table we need to ignore the data after the last sales date. To get this date we’ll enable the load of the last_sales_month table from Power Query.
+- Now since we have both fact_actuals&estimates & last_sales_month tables we don't really need the fact_sales_monthly table and can disable its load to reduce the file size. But first we need to replace its usage from the ytd_ytg calculated column. So we’ll update to: var LASTSALESDATE = MAX(last_sales_month[last_sales_month]) in the DAX code.
+- Now we can disable the fact_sales_monthly table loading from Power Query.
+- We’ll create a new measure to calculate the actual sales quantity for dates before the last_sales_month date.
+
+  Sales Qty Measure: Sales Qty = CALCULATE([Quantity], 'fact_actuals&estimates'[date] <= MAX(last_sales_month[last_sales_month]))
+- Similarly we create a measure to calculate the forecast sales quantity without using an filters based on entire fact_forecast_monthly table. 
+
+   Forecast Qty Measure: Forecast Qty = SUM(fact_forecast_monthly[forecast_quantity])
