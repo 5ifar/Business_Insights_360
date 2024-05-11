@@ -10,6 +10,7 @@
 - [Phase 4: Finance View](#phase-4-finance-view)
 - [Phase 5: Sales View](#phase-5-sales-view)
 - [Phase 6: Marketing View](#phase-6-marketing-view)
+- [Phase 7: Supply Chain View](#phase-7-supply-chain-view)
 
 ---
 
