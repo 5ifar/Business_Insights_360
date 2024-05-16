@@ -480,4 +480,26 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
   Sales Qty Measure: Sales Qty = CALCULATE([Quantity], 'fact_actuals&estimates'[date] <= MAX(last_sales_month[last_sales_month]))
 - Similarly we create a measure to calculate the forecast sales quantity without using an filters based on entire fact_forecast_monthly table. 
 
-   Forecast Qty Measure: Forecast Qty = SUM(fact_forecast_monthly[forecast_quantity])
+  Forecast Qty Measure: Forecast Qty = SUM(fact_forecast_monthly[forecast_quantity])
+
+`Step 2: Creating Supply Chain Measures`
+
+- Net Error is the difference between the Forecast and Actual Sales figures. Net Error Measure: Net Error = [Forecast Qty] - [Sales Qty]
+- Net Error % is calculated over the Forecast figure. Net Error % Measure: Net Error % = DIVIDE([Net Error], [Forecast Qty], 0)
+- We’ll modify Forecast Qty Measure to restrict it till last sales date since we want to compare it with the Actual Sales.
+
+  Updated Forecast Qty Measure: Forecast Qty = 
+
+  var lsalesdate = MAX(last_sales_month[last_sales_month])
+
+  RETURN CALCULATE(SUM(fact_forecast_monthly[forecast_quantity]), fact_forecast_monthly[date] <= lsalesdate)
+- For the Absolute Error Measure, in AtliQ as per the supply chain team’s requirement - the ABS Error needs to be measured for each product at the monthly level.  In other words, we need to convert the Net error to ABS Error at the product and month level granularity.
+
+  To apply the formula to Products and Months, we need a list of products and Months. Hence DISTINCT(dim_product[product_code]) and DISTINCT(dim_date[month]) are used.
+
+  Now, you need to iterate the ABS([Net Error]) for each product and sum them up. Hence, SUMX is required.
+- Absolute Error Measure: Abs Error = SUMX(DISTINCT(dim_date[date]), SUMX(DISTINCT(dim_product[product_code]), ABS([Net Error])))
+- Absolute Error % is also calculated over the Forecast figure.Absolute Error Measure: Abs Error % = DIVIDE([Abs Error], [Forecast Qty], 0)
+- Forecast Accuracy is logical opposite of Absolute Error. However doing simply, Forecast Accuracy % = 1 - [Abs Error %] gives us some blank rows in visualizations and the Forecast Accuracy % as 1 or 100%. This happens due to the fact that products without sales or forecast is included in this calculation. Because for products without forecast or sales, the ABS Error % is blank. By that logic, Forecast Accuracy = 1- Blank( ) which returns 1. Hence we’ll add an IF condition such that if the [ABS Error %] is blank the formula will also return blank and hence it won’t be displayed in the table.
+
+  Updated Forecast Accuracy % Measure: Forecast Accuracy % = IF([Abs Error %] <> BLANK( ), 1 - [Abs Error %], BLANK( ))
