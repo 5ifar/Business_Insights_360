@@ -503,3 +503,21 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
 - Forecast Accuracy is logical opposite of Absolute Error. However doing simply, Forecast Accuracy % = 1 - [Abs Error %] gives us some blank rows in visualizations and the Forecast Accuracy % as 1 or 100%. This happens due to the fact that products without sales or forecast is included in this calculation. Because for products without forecast or sales, the ABS Error % is blank. By that logic, Forecast Accuracy = 1- Blank( ) which returns 1. Hence we’ll add an IF condition such that if the [ABS Error %] is blank the formula will also return blank and hence it won’t be displayed in the table.
 
   Updated Forecast Accuracy % Measure: Forecast Accuracy % = IF([Abs Error %] <> BLANK( ), 1 - [Abs Error %], BLANK( ))
+
+`Step 3: Building Supply Chain visuals`
+
+1. Add Forecast Accuracy %, Net Error & Abs Error KPI Cards to the top left Supply Chain View page area.
+2. Copy the Customer Performance visual from Sales View. Replace the values fields by Forecast Accuracy %, Net Error and Net Error %.
+3. Copy the Product Performance visual from Sales View. Replace the values fields by Forecast Accuracy %, Net Error and Net Error %.
+4. Add a Line & Clustered Column chart with Months field on X Axis (Set Value type as Categorical), Net Error on Column Y Axis and Forecast Accuracy % on Line Y Axis.
+
+   We also need the Forecast Accuracy Year Ago % value on the Line Y Axis, for this we need to create a new measure. Forecast Accuracy % LY Measure:
+
+   Forecast Accuracy % LY = CALCULATE([Forecast Accuracy %], SAMEPERIODLASTYEAR(dim_date[date]))
+
+   Add this measure to both the Customer and Product Performance visuals.
+5. We’ll create a new Risk measure to display if the item is in excess inventory or out of stock based on the Net Error measure value. Risk Measure:
+
+   Risk = IF([Net Error]>0, "Excess Inventory", IF([Net Error]<0, "Out of Stock", BLANK()))
+
+   Add this Risk Measure to both the Customer and Product Performance visuals.
