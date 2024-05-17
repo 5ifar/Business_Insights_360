@@ -527,3 +527,22 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
 ---
 
 ## Phase 8: Designing Effective Dashboard
+
+`Step 1: Building Home View landing page`
+
+- Set Custom View background. Page Formatting → Canvas Background → Select Image → Adjust transparency to 50%
+- Now we’ll build the navigation setup. This needs to be done since we’ll be configuring Nav button actions to navigate to each of the pages and if we build this on anyone of those pages we won’t have the option to configure the button to navigate to same page it was built on. So building it on a new page gives us the option to configure navigation to all the other pages.
+- Insert a Blank Button, in button formatting change state to Default and set Icon Type as Custom and Browse to select custom icon. Setup similarly custom icons for On Hover and On Press state. Follow this process for Info, Economy, Acquisition, Advertising, Executive, Supply Chain & Help Icons to the view. Size all to Height 100 & Width 120. Add all the Icon View Descriptions.
+- Add AtliQ Logo to the top left page corner. Add Business Insights 360 Report title. Format the color and size as required.
+- Configure Page Navigation by enabling Button Action as Type: Page Navigation and set the Destination as Required Page.
+
+  Economy Icon → Finance View, Acquisition Icon → Sales View, Advertising Icon → Marketing View, Supply Chain Icon → Supply Chain View
+- Add a horizontal line shape to demarcate the footer.
+- Add Last Sales Month value to the page footer using the measure Last Sales Month Footer = "Sales data loaded until: " & FORMAT(MAX(last_sales_month[last_sales_month]), "MMM YY") as a Simple Card visual.
+- Add “Values are in Millions. Currency is USD.” text to the footer.
+- To add the Date of Report Refresh create a Blank query in the Power Query Editor. In the Advanced Editor add M - code:
+    
+  let Source = #table(type table[Report Last Refreshed=datetime], {{DateTime.LocalNow()}})
+  in Source
+    
+  Add the values as a Simple Card visual.
