@@ -11,6 +11,7 @@
 - [Phase 5: Sales View](#phase-5-sales-view)
 - [Phase 6: Marketing View](#phase-6-marketing-view)
 - [Phase 7: Supply Chain View](#phase-7-supply-chain-view)
+- [Phase 8: Designing Effective Dashboard](#phase-8-designing-effective-dashboard)
 
 ---
 
@@ -522,3 +523,7 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
 
    Add this Risk Measure to both the Customer and Product Performance visuals.
 6. Add Footer as: BM: Benchmark | LY: Last Year | EI: Excess Inventory | OOS: Out of Stock
+
+---
+
+## Phase 8: Designing Effective Dashboard
