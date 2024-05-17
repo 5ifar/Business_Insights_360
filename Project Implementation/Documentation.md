@@ -518,6 +518,7 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
    Add this measure to both the Customer and Product Performance visuals.
 5. We’ll create a new Risk measure to display if the item is in excess inventory or out of stock based on the Net Error measure value. Risk Measure:
 
-   Risk = IF([Net Error]>0, "Excess Inventory", IF([Net Error]<0, "Out of Stock", BLANK()))
+   Risk = IF([Net Error]>0, "EI", IF([Net Error]<0, "OOS", BLANK()))
 
    Add this Risk Measure to both the Customer and Product Performance visuals.
+6. Add Footer as: BM: Benchmark | LY: Last Year | EI: Excess Inventory | OOS: Out of Stock
