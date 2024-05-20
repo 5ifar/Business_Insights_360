@@ -546,3 +546,11 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
   in Source
     
   Add the values as a Simple Card visual.
+
+`Step 2: Upgrading Finance View`
+
+- Set Custom View background. Page Formatting → Canvas Background → Select Image → Adjust transparency to 50%
+- Make space for Left Nav Bar and 3 KPI Cards by formatting existing visuals.
+- Change P&L Matrix Style Preset to Default/Transparent and adjust the padding to 2 to avoid any scroll bars. Add visual shadow.
+- Resize Top Markets & Top Products visuals to equal size and use format painter to copy the formatting from P&L Matrix visual. Add Region Field to Top Market Rows.
+- For Net Sales Performance visual, add visual shadow. Set line and shade area color according to the background color palette.
