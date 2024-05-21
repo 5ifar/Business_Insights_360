@@ -421,23 +421,23 @@ AtliQ’s Financial Year starts is from Sep to Aug.
 
 ## Phase 5: Sales View
 
-`Step 1: Building Customer Performance visual`
+### Step 1: Building Customer Performance visual
 
 1. Add a Matrix visual with customer field as Rows and Net Sales, Gross Margin & Gross Margin % Measures as values.
 2. Change the display units for NS $ & GM $ to Millions. Format → Specific Column → Select Column → Value Display Unit to Millions with 2 decimal points.
 
-`Step 2: Building Customers GM & NS Plot visual`
+### Step 2: Building Customers GM & NS Plot visual
 
 1. Copy the Top Customers visual and convert it to Scatter Plot. Add market field before customer field in values to aid drill down and fix congestion. Enable Category labels and Zoom Sliders.
 2. We need Net Sales values as the X Axis and the Gross Margin % values as the Y Axis and the Gross Margin $ values as the Bubble size. Add region field as the Legend.
 3. Copy the FY, Quarters & YTD-YTG Slicers from Finance View to Sales View and Sync them across pages.
 4. Add an additional Region, Market & Customer fields Dropdown Slicers for country-specific business users.
 
-`Step 3: Building Product Performance visual`
+### Step 3: Building Product Performance visual
 
-1. Copy the Customer Performance visual and replace the customer field in Rows by segment, category & product fields to aid drill down on product level.
+- Copy the Customer Performance visual and replace the customer field in Rows by segment, category & product fields to aid drill down on product level.
 
-`Step 4: Building Unit Economics visual`
+### Step 4: Building Unit Economics visual
 
 1. Add a Donut chart with P&L Values measure as the Values and Description field as Legend. Now in the Filters pane, filter the Description field to only show Net Sales, Pre Invoice Deduction & Total Post Invoice Deduction.
 2. Set Detail Labels Display Units as None. Align the legend to top center. Disable legend title.
@@ -449,20 +449,20 @@ AtliQ’s Financial Year starts is from Sep to Aug.
 
 Duplicate the Sales View. Remove the Customer Performance Matrix visual.
 
-`Step 1: Building Product Performance visual`
+### Step 1: Building Product Performance visual
 
 - Add Net Profit and Net Profit % values to the Product Performance visual copied from Sales View.
 
-`Step 2: Building Products GM & NS Plot visual`
+### Step 2: Building Products GM & NS Plot visual
 
 - Replace the existing values field by segment, category and product fields. Add division field to the legend.
 
-`Step 3: Building Unit Economics visual`
+### Step 3: Building Unit Economics visual
 
 - Replace the Net Sales and Deduction Donut chart by a Waterfall chart with Gross Margin, Operation Cost & Net Profit fields to show the flow of expenses.
 - Sort the waterfall by P&L Rows Order column such that the Gross Margin is on the left and Net Profit is on right.
 
-`Step 4: Building Market Performance visual`
+### Step 4: Building Market Performance visual
 
 - Copy the Product Performance visual and change the Rows to region and market fields.
 
@@ -470,42 +470,42 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
 
 ## Phase 7: Supply Chain View
 
-`Step 1: Understanding Key Metrics`
+### Step 1: Understanding Key Metrics
 
 - We already have a quantity measure but it is not the actual sales quantity because it has been calculated based on the fact_actuals&estimates that takes into consideration the estimate/forecast data as well. We only need the actual data sales qty.
 - To extract the actual sales qty from the fact_actuals&estimates table we need to ignore the data after the last sales date. To get this date we’ll enable the load of the last_sales_month table from Power Query.
-- Now since we have both fact_actuals&estimates & last_sales_month tables we don't really need the fact_sales_monthly table and can disable its load to reduce the file size. But first we need to replace its usage from the ytd_ytg calculated column. So we’ll update to: var LASTSALESDATE = MAX(last_sales_month[last_sales_month]) in the DAX code.
+- Now since we have both fact_actuals&estimates & last_sales_month tables we don't really need the fact_sales_monthly table and can disable its load to reduce the file size. But first we need to replace its usage from the ytd_ytg calculated column. So we’ll update to: `var LASTSALESDATE = MAX(last_sales_month[last_sales_month])` in the DAX code.
 - Now we can disable the fact_sales_monthly table loading from Power Query.
 - We’ll create a new measure to calculate the actual sales quantity for dates before the last_sales_month date.
 
-  Sales Qty Measure: Sales Qty = CALCULATE([Quantity], 'fact_actuals&estimates'[date] <= MAX(last_sales_month[last_sales_month]))
-- Similarly we create a measure to calculate the forecast sales quantity without using an filters based on entire fact_forecast_monthly table. 
+  Sales Qty Measure: `Sales Qty = CALCULATE([Quantity], 'fact_actuals&estimates'[date] <= MAX(last_sales_month[last_sales_month]))`
+- Similarly we create a measure to calculate the forecast sales quantity without using an filters based on entire fact_forecast_monthly table.
 
-  Forecast Qty Measure: Forecast Qty = SUM(fact_forecast_monthly[forecast_quantity])
+  Forecast Qty Measure: `Forecast Qty = SUM(fact_forecast_monthly[forecast_quantity])`
 
-`Step 2: Creating Supply Chain Measures`
+### Step 2: Creating Supply Chain Measures
 
-- Net Error is the difference between the Forecast and Actual Sales figures. Net Error Measure: Net Error = [Forecast Qty] - [Sales Qty]
-- Net Error % is calculated over the Forecast figure. Net Error % Measure: Net Error % = DIVIDE([Net Error], [Forecast Qty], 0)
+- Net Error is the difference between the Forecast and Actual Sales figures. Net Error Measure: `Net Error = [Forecast Qty] - [Sales Qty]`
+- Net Error % is calculated over the Forecast figure. Net Error % Measure: `Net Error % = DIVIDE([Net Error], [Forecast Qty], 0)`
 - We’ll modify Forecast Qty Measure to restrict it till last sales date since we want to compare it with the Actual Sales.
 
-  Updated Forecast Qty Measure: Forecast Qty = 
+  Updated Forecast Qty Measure: `Forecast Qty = `
 
-  var lsalesdate = MAX(last_sales_month[last_sales_month])
+  `var lsalesdate = MAX(last_sales_month[last_sales_month])`
 
-  RETURN CALCULATE(SUM(fact_forecast_monthly[forecast_quantity]), fact_forecast_monthly[date] <= lsalesdate)
+  `RETURN CALCULATE(SUM(fact_forecast_monthly[forecast_quantity]), fact_forecast_monthly[date] <= lsalesdate)`
 - For the Absolute Error Measure, in AtliQ as per the supply chain team’s requirement - the ABS Error needs to be measured for each product at the monthly level.  In other words, we need to convert the Net error to ABS Error at the product and month level granularity.
 
-  To apply the formula to Products and Months, we need a list of products and Months. Hence DISTINCT(dim_product[product_code]) and DISTINCT(dim_date[month]) are used.
+  To apply the formula to Products and Months, we need a list of products and Months. Hence `DISTINCT(dim_product[product_code])` and `DISTINCT(dim_date[month])` are used.
 
-  Now, you need to iterate the ABS([Net Error]) for each product and sum them up. Hence, SUMX is required.
-- Absolute Error Measure: Abs Error = SUMX(DISTINCT(dim_date[date]), SUMX(DISTINCT(dim_product[product_code]), ABS([Net Error])))
-- Absolute Error % is also calculated over the Forecast figure.Absolute Error Measure: Abs Error % = DIVIDE([Abs Error], [Forecast Qty], 0)
-- Forecast Accuracy is logical opposite of Absolute Error. However doing simply, Forecast Accuracy % = 1 - [Abs Error %] gives us some blank rows in visualizations and the Forecast Accuracy % as 1 or 100%. This happens due to the fact that products without sales or forecast is included in this calculation. Because for products without forecast or sales, the ABS Error % is blank. By that logic, Forecast Accuracy = 1- Blank( ) which returns 1. Hence we’ll add an IF condition such that if the [ABS Error %] is blank the formula will also return blank and hence it won’t be displayed in the table.
+  Now, you need to iterate the `ABS([Net Error])` for each product and sum them up. Hence, SUMX is required.
+- Absolute Error Measure: `Abs Error = SUMX(DISTINCT(dim_date[date]), SUMX(DISTINCT(dim_product[product_code]), ABS([Net Error])))`
+- Absolute Error % is also calculated over the Forecast figure.Absolute Error Measure: `Abs Error % = DIVIDE([Abs Error], [Forecast Qty], 0)`
+- Forecast Accuracy is logical opposite of Absolute Error. However doing simply, `Forecast Accuracy % = 1 - [Abs Error %]` gives us some blank rows in visualizations and the Forecast Accuracy % as 1 or 100%. This happens due to the fact that products without sales or forecast is included in this calculation. Because for products without forecast or sales, the ABS Error % is blank. By that logic, Forecast Accuracy = 1- Blank( ) which returns 1. Hence we’ll add an IF condition such that if the `[ABS Error %]` is blank the formula will also return blank and hence it won’t be displayed in the table.
 
-  Updated Forecast Accuracy % Measure: Forecast Accuracy % = IF([Abs Error %] <> BLANK( ), 1 - [Abs Error %], BLANK( ))
+  Updated Forecast Accuracy % Measure: `Forecast Accuracy % = IF([Abs Error %] <> BLANK( ), 1 - [Abs Error %], BLANK( ))`
 
-`Step 3: Building Supply Chain visuals`
+### Step 3: Building Supply Chain visuals
 
 1. Add Forecast Accuracy %, Net Error & Abs Error KPI Cards to the top left Supply Chain View page area.
 2. Copy the Customer Performance visual from Sales View. Replace the values fields by Forecast Accuracy %, Net Error and Net Error %.
@@ -514,12 +514,12 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
 
    We also need the Forecast Accuracy Year Ago % value on the Line Y Axis, for this we need to create a new measure. Forecast Accuracy % LY Measure:
 
-   Forecast Accuracy % LY = CALCULATE([Forecast Accuracy %], SAMEPERIODLASTYEAR(dim_date[date]))
+   `Forecast Accuracy % LY = CALCULATE([Forecast Accuracy %], SAMEPERIODLASTYEAR(dim_date[date]))`
 
    Add this measure to both the Customer and Product Performance visuals.
 5. We’ll create a new Risk measure to display if the item is in excess inventory or out of stock based on the Net Error measure value. Risk Measure:
 
-   Risk = IF([Net Error]>0, "EI", IF([Net Error]<0, "OOS", BLANK()))
+   `Risk = IF([Net Error]>0, "EI", IF([Net Error]<0, "OOS", BLANK()))`
 
    Add this Risk Measure to both the Customer and Product Performance visuals.
 6. Add Footer as: BM: Benchmark | LY: Last Year | EI: Excess Inventory | OOS: Out of Stock
