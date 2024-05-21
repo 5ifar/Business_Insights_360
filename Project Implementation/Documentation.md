@@ -608,3 +608,16 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
 - Configure Abs Error KPI Card with Abs Error measure as the value field and new measure: `Abs Error LY = CALCULATE([Abs Error], SAMEPERIODLASTYEAR(dim_date[date]))` as the target field.
   Also since less Abs Error is good we’ll configure the Trend Axis direction as Low is good so that higher values are shown as red and the Distance to goal direction as Increasing is
   positive such that the percentage change is shown with correct +ve/-ve sign.
+
+### Step 6: Upgrading Sales View
+
+- Change Customer and Product Performance visual columns to only show 2 decimal values.
+- Change legend location to top center for Unit Economics visuals and add Net Sales Breakdown Arrow.
+- Update the Sales View Nav Bar icon to color state and setup navigation.
+- Set the current Canvas background and copy the same formatting across all visuals using Format Painter.
+
+### Step 7: Upgrading Marketing View
+
+- Change legend location to top center for Unit Economics visuals and add Gross Margin Breakdown Arrow.
+- Update the Marketing View Nav Bar icon to color state and setup navigation.
+- Set the current Canvas background and copy the same formatting across all visuals using Format Painter.
