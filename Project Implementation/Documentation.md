@@ -554,3 +554,40 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
 - Change P&L Matrix Style Preset to Default/Transparent and adjust the padding to 2 to avoid any scroll bars. Add visual shadow.
 - Resize Top Markets & Top Products visuals to equal size and use format painter to copy the formatting from P&L Matrix visual. Add Region Field to Top Market Rows.
 - For Net Sales Performance visual, add visual shadow. Set line and shade area color according to the background color palette.
+
+### Step 3: Adding Key Elements to Finance Dashboard
+
+- Add markers to the Performance over Time Area chart visual.
+- Add custom titles for Top Customers/Products visuals based on the line item selected in the P&L Matrix visual. For this we’ll create 2 new measures and configure them as conditionally formatted tiles for the corresponding visuals.
+
+  Top / Bottom Customers Visual Title Measure: `Top / Bottom Customers Visual Title = "Customers by " & [P&L Selected Row]`
+
+  Top / Bottom Products Visual Title Measure: `Top / Bottom Products Visual Title = "Products by " & [P&L Selected Row]`
+- Update the P&L Matrix title to P&L Statement.
+- Update Slicers field grouping. Add Market field to Region Slicer. Replace Market Slicer by Product Slicer. Add Segment and Category fields to the Product Slicer. Remove background and format Value Background color to White.
+- Remove the background from FY-Q-YTX Slicers. Edit Value text to Bold and Background color to White.
+- We’ll add 3 Key Performance Indicators:
+
+1. Net Sales:
+
+   Set NS $ Measure as the Value field and fiscal_year in the Trend axis field. In the target field we need Net Sales from last year so for this we’ll create a new measure:
+
+   `NS $ LY = CALCULATE([NS $], SAMEPERIODLASTYEAR(dim_date[date]))`
+
+   Change the Target label to LY.
+
+2. Gross Margin %:
+
+   Set GM % Measure as the Value field and fiscal_year in the Trend axis field. In the target field we need Gross Margin % from last year so for this we’ll create a new measure:
+
+   `GM % LY = CALCULATE([GM %], SAMEPERIODLASTYEAR(dim_date[date]))`
+
+   Change the Target label to LY.
+
+3. Net Profit %:
+
+   Set Net Profit % Measure as the Value field and fiscal_year in the Trend axis field. In the target field we need Net Profit % from last year so for this we’ll create a new measure:
+
+   `Net Profit % LY = CALCULATE([Net Profit %], SAMEPERIODLASTYEAR(dim_date[date]))`
+
+   Change the Target label to LY.
