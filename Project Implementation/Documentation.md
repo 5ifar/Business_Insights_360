@@ -591,3 +591,20 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
    `Net Profit % LY = CALCULATE([Net Profit %], SAMEPERIODLASTYEAR(dim_date[date]))`
 
    Change the Target label to LY.
+
+### Step 4: Configuring Navigation Bar
+
+- Add a Rounded rectangle shape the left edge of the view with shape rounded corners set to 20%. Set Fill color to white with 60% transparency and Border color to Dark Red.
+- Add the Home, Finance, Sales, Marketing, Supply Chain & Executive Icon Buttons to the Nav Bar and set Alignment and distribution. Set appropriate custom color icons for the hover and press states. Set the default state also as the custom color icon according to the view you're on.
+- Copy the Nav Bar to all the views. Set the Home Icon button navigation to the Home view.
+
+### Step 5: Upgrading Supply Chain View
+
+- Update the Supply Chain Card to KPI Cards. Configure Forecast Accuracy KPI Card with Forecast Accuracy % measure as the value field and Forecast Accuracy % LY measure as the target field.
+- Configure Net Error KPI Card with Net Error measure as the value field and new measure: `Net Error LY = CALCULATE([Net Error], SAMEPERIODLASTYEAR(dim_date[date]))` as the target field.
+
+  Also since less Net Error is good we’ll configure the Trend Axis direction as Low is good so that lower values are shown as green and the Distance to goal direction as Increasing is
+  positive such that the percentage change is shown with correct +ve/-ve sign.
+- Configure Abs Error KPI Card with Abs Error measure as the value field and new measure: `Abs Error LY = CALCULATE([Abs Error], SAMEPERIODLASTYEAR(dim_date[date]))` as the target field.
+  Also since less Abs Error is good we’ll configure the Trend Axis direction as Low is good so that higher values are shown as red and the Distance to goal direction as Increasing is
+  positive such that the percentage change is shown with correct +ve/-ve sign.
