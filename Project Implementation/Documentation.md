@@ -539,6 +539,8 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
   Economy Icon → Finance View, Acquisition Icon → Sales View, Advertising Icon → Marketing View, Supply Chain Icon → Supply Chain View
 - Add a horizontal line shape to demarcate the footer.
 - Add Last Sales Month value to the page footer using the measure `Last Sales Month Footer = "Sales data loaded until: " & FORMAT(MAX(last_sales_month[last_sales_month]), "MMM YY")` as a Simple Card visual.
+
+  Upgraded Design Dashboard measure: `Last Sales Month Footer = FORMAT(MAX(last_sales_month[last_sales_month]), "MMM YYYY")`
 - Add “Values are in Millions. Currency is USD.” text to the footer.
 - To add the Date of Report Refresh create a Blank query in the Power Query Editor. In the Advanced Editor add M - code:
     
