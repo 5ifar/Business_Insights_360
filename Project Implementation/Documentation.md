@@ -623,3 +623,17 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
 - Change legend location to top center for Unit Economics visuals and add Gross Margin Breakdown Arrow.
 - Update the Marketing View Nav Bar icon to color state and setup navigation.
 - Set the current Canvas background and copy the same formatting across all visuals using Format Painter.
+
+### Step 8: Incorporating Country level NS, GM & NP Target FY 2022 Data in Finance View
+
+- Import the Targets FY 2022 file to the Power Query Editor and load it to the front end after making suitable changes.
+- In the Modelling view, create relationships: market (dim_market) → market (ns_gm_target) & date (dim_date) → month (ns_gm_target)
+- Create measure for Net Sales Target: `NS $ Target = SUM(ns_gm_target[ns_target])` with Currency data type and 2 decimals.
+- Create measure for Gross Margin Target: `GM $ Target = SUM(ns_gm_target[gm_target])` with Currency data type and 2 decimals.
+- Create measure for Net Profit target: `Net Profit $ Target = SUM(ns_gm_target[np_target])` with Currency data type and 2 decimals.
+- The NS $ KPI Card can be filtered based on Region since we have regional data for target however it cannot be further filtered based on Customer since then the NS $ value will be shown for that particular customer but the target value will be shown for the entire region level which will result in incorrect Change % calculation.  E.g. Regional target of 30M$ does not imply 30M$/equally divided target for all the customers in the region.
+
+  However the GM % and Net Profit % KPI Cards can be filtered based on Region and further on Customer since e.g. a Regional target of 30% can also be seen as 30% target for all the
+  customers in the region.
+- Create measure for Gross Margin % target: `GM % Target = DIVIDE([GM $ Target], [NS $ Target], 0)` with Percentage 2 decimal values data type.
+- Create measure for Net Profit % target: `Net Profit % Target = DIVIDE([Net Profit $ Target], [NS $ Target], 0)` with Percentage 2 decimal values data type.
