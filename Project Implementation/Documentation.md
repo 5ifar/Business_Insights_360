@@ -645,3 +645,36 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
 - Update the KPI Cards Targets to NS $ Target, GM % Target & Net Profit % Target Measures respectively.
 
   Now when we filter based on Region and Customers the Formatting and Distance to goal will be shown correctly as per target values for both Gross Margin % and Net Profit % Cards but it will   be incorrect for Net Sales Card as explained above at Point 6.
+
+### Step 10: Creating a Dynamic Switch to toggle between LY and Target benchmarks
+
+1. Home → Enter Data → Set table name as Set BM → Column names: benchmarks and ID → Benchmark: vs LY, ID: 1 & Benchmark: vs Target, ID: 2 → Load
+2. Add the Benchmarks column to the page as a Tile slicer with Single select enabled.
+3. Now we need to create new measure that will toogle values between Target and LY based on the slicer value selected out of Set BM [ID] column.
+4. Create Net Sales Benchmark measure: `NS $ BM = SWITCH(TRUE( ), SELECTEDVALUE('Set BM'[ID]) = 1, [NS $ LY], SELECTEDVALUE('Set BM'[ID]) = 2, [NS $ Target])`
+
+   Add the measure to the Net Sales KPI Card Target parameter.
+5. However when we filter based on customer or product the Net Sales KPI card shows inaccurate value. To fix this we need a measure that check if any customer direct filter or product direct/indirect filter is being applied. Here we’ll allow indirect filter on customer since filtering region leads to filtered customers.
+
+   `Customer / Product Filter Check = ISFILTERED(dim_customer[customer]) || ISCROSSFILTERED(dim_product[product])`
+6. We’ll use this Filter Check in the NS $ Target measure so that when there is a filter applied then blank/no value will be shown other use the regular formula.
+
+   `Updated measure for Net Sales Target: NS $ Target = `
+
+   `var target = SUM(ns_gm_target[ns_target])`
+
+   `return IF([Customer / Product Filter Check], BLANK( ), target)`
+7. However with the above update formula the NS $ Target measure value will become BLANK whenever there is any customer/product specific filters applied this will in turn break our GM %         Target and Net Profit % Target measures and they will show target as 0 %. To fix this we’ll replace NS $ Target in these  measures with its base formula which is not affected by filters.
+
+   Updated measure for Gross Margin % target: `GM % Target = DIVIDE([GM $ Target], SUM(ns_gm_target[ns_target]), 0)`
+
+   Updated measure for Net Profit % target: `Net Profit % Target = DIVIDE([Net Profit $ Target], SUM(ns_gm_target[ns_target]), 0)`
+8. Create Gross Margin % Benchmark measure: `GM % BM = SWITCH(TRUE( ), SELECTEDVALUE('Set BM'[ID]) = 1, [GM % LY], SELECTEDVALUE('Set BM'[ID]) = 2, [GM % Target])`
+
+   Add the measure to the Gross Margin % KPI Card Target parameter.
+9. Create Net Profit % Benchmark measure: `Net Profit % BM = SWITCH(TRUE( ), SELECTEDVALUE('Set BM'[ID]) = 1, [Net Profit % LY], SELECTEDVALUE('Set BM'[ID]) = 2, [Net Profit % Target])`
+
+   Add the measure to the Net Profit % KPI Card Target parameter.
+10. When we change the FY slicer to any year other than 2022 Est the Target benchmarks are not available and the KPI Cards show Blank value in Target and the Distance to goal is shown as         infinity %. This can be confusing and can be clarified by showing a text msg warning when the target values are blank using a new BM Message measure:
+
+    `BM Message = IF([NS $ BM] = BLANK( ) || [GM % BM] = BLANK() || [Net Profit % BM] = BLANK(), "BM Target(s) is not available for the selected filters", "")`
