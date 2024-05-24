@@ -637,3 +637,11 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
   customers in the region.
 - Create measure for Gross Margin % target: `GM % Target = DIVIDE([GM $ Target], [NS $ Target], 0)` with Percentage 2 decimal values data type.
 - Create measure for Net Profit % target: `Net Profit % Target = DIVIDE([Net Profit $ Target], [NS $ Target], 0)` with Percentage 2 decimal values data type.
+
+### Step 9: Updating Finance View visuals
+
+- Update the KPI Cards target label from LY to BM (Benchmark) since it can be used to represent both LY and Target values.
+- Add Footer text BM: Benchmark LY: Last Year
+- Update the KPI Cards Targets to NS $ Target, GM % Target & Net Profit % Target Measures respectively.
+
+  Now when we filter based on Region and Customers the Formatting and Distance to goal will be shown correctly as per target values for both Gross Margin % and Net Profit % Cards but it will   be incorrect for Net Sales Card as explained above at Point 6.
