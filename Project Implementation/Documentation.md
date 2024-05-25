@@ -678,3 +678,61 @@ Duplicate the Sales View. Remove the Customer Performance Matrix visual.
 10. When we change the FY slicer to any year other than 2022 Est the Target benchmarks are not available and the KPI Cards show Blank value in Target and the Distance to goal is shown as         infinity %. This can be confusing and can be clarified by showing a text msg warning when the target values are blank using a new BM Message measure:
 
     `BM Message = IF([NS $ BM] = BLANK( ) || [GM % BM] = BLANK() || [Net Profit % BM] = BLANK(), "BM Target(s) is not available for the selected filters", "")`
+
+### Step 11: Configuring BM instead of LY for other Finance View visuals
+
+P&L Statement, Customers/products by Net Sales visuals:
+
+1. For the P&L Statement visual the key measure used currently is P & L Values. We’ll create a corresponding Target measure for all metrics for which we have target data:
+
+   `P&L Target =`
+
+   `var res = SWITCH(TRUE( ),`
+
+   `MAX('P&L Rows'[Order])=7,  [NS $ Target]/1000000,`
+
+   `MAX('P&L Rows'[Order])=12,  [GM $ Target]/1000000,`
+
+   `MAX('P&L Rows'[Order])=13,  [GM % Target]*100,`
+
+   `MAX('P&L Rows'[Order])=16,  [Net Profit $ Target]/1000000,`
+
+   `MAX('P&L Rows'[Order])=17,  [Net Profit % Target]*100)`
+
+   `RETURN IF(HASONEVALUE('P&L Rows'[Description]), res, [NS $ Target]/1000000)`
+2. Now we’ll create the P&L BM measure: `P&L BM = SWITCH(TRUE( ), SELECTEDVALUE('Set BM'[ID]) = 1, [P&L LY], SELECTEDVALUE('Set BM'[ID]) = 2, [P&L Target])`
+3. We’ll update the P&L Final Value measure that is being used in the visual with column header based on BM instead of LY. 
+
+   `P&L Final Value = SWITCH(TRUE( ),`
+
+   `SELECTEDVALUE(fiscal_year[fy_desc])=MAX('P&L Columns'[Col Header]), [P&L Values],`
+
+   `MAX('P&L Columns'[Col Header]) = "BM", [P&L BM],`
+
+   `MAX('P&L Columns'[Col Header]) = "Chg",[P&L YoY Chg],`
+
+   `MAX('P&L Columns'[Col Header]) = "Chg %",[P&L YoY Chg %])`
+4. We’ll also update the P&L Columns table since the headers for P&L Final Value is coming from there.
+
+   Measure `P&L Columns =`
+
+   `var fy = ALLNOBLANKROW(fiscal_year[fy_desc])`
+
+   `RETURN UNION(ROW("Col Header", "BM"), ROW("Col Header", "Chg"), ROW("Col Header", "Chg %"), fy)`
+5. Also update the P&L YoY Chg and P&L YoY Chg % measures used in P&L Final value to refelect the new BM measure and update the name to not show YoY. Also both the measures as BLANK if the      P&L Values or P&L BM measure is BLANK. 
+
+   A. `P&L Chg =`
+
+      `var res = [P&L Values] - [P&L BM]`
+
+      `RETURN IF(ISBLANK([P&L Values]) || ISBLANK([P&L BM]), BLANK( ), res)`
+
+   B. `P&L Chg % =`
+
+      `var res = DIVIDE([P&L Chg], ABS([P&L BM]), 0) * 100`
+
+      `RETURN IF(ISBLANK([P&L Values]) || ISBLANK([P&L BM]), BLANK(), res)`
+
+Net Sales Performance visual:
+
+1. Replace the P&L LY measure in values field by P&L BM measure. Change the label to “vs BM”.
