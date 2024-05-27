@@ -6,7 +6,7 @@ It showcases my competancy to work with Microsoft Power BI and demonstrates my p
 
 .......to be inserted.......
 
-The entire project has been implemented using Microsoft Power BI Desktop 2.128.751.0.
+The entire project has been implemented using Microsoft Power BI Desktop 2.128.751.0 and published on Microsoft Power BI Service.
 
 The project data files have not been uploaded to this repository in compliance with Codebasics Data & Content Distribution Policy.
 
