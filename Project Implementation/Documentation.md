@@ -753,3 +753,12 @@ Net Sales Performance visual:
    `GM % Filter = IF([GM % Variance] >= [Target gap Tolerance Value], 1, 0)`
 5. Apply GM % Filter measure as a visual level filter for the GM %, NS $ and GM $ Performance Plot visual by adding the measure and show items when value is 1.
 6. Now the Performance Plot will only show customer with higher GM % Variance than the Slicer value so that stakeholders can eventually fix underlying finance issue and move them to the top right quadrant with high NS $ and GM % values.
+
+### Step 13: Configure Toggle Button to switch GM % and NP % in Marketing View Performance Plot visual
+
+1. Add a rounded rectangle button to the Marketing View Performance Plot visual and add text Show NP %.
+2. Duplicate the Plot and change the Y Axis GM % field to Net Profit % and Size GM $ field to Net Profit $. Duplicate the button and change text to Show GM %.
+3. Align the Plots and Buttons on top of each other. Assign lables and create Plot and Button pair groups in selection tool.
+4. Create  Bookmarks - `GM % Shown` and `NP % Shown`. Unselect Data option from settings so that the static data when bookmark was created is not shown and instead the data gets updated dynamically.
+5. Now hide/unhide the groups and Update the Bookmarks.
+6. Configure Button Action to display corresponding Bookmarks. Show NP % Button → NP % Shown Bookmark & Show GM % Button → GM % Shown Bookmark
