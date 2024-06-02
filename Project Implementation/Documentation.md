@@ -762,3 +762,13 @@ Net Sales Performance visual:
 4. Create  Bookmarks - `GM % Shown` and `NP % Shown`. Unselect Data option from settings so that the static data when bookmark was created is not shown and instead the data gets updated dynamically.
 5. Now hide/unhide the groups and Update the Bookmarks.
 6. Configure Button Action to display corresponding Bookmarks. Show NP % Button → NP % Shown Bookmark & Show GM % Button → GM % Shown Bookmark
+
+### Step 14: Implement custom Tooltip to show NS $ and GM % Trend in Sales View
+
+1. Create a new page Sales Trend Tooltip and set the Page Type and Canvas Settings Type as Tooltip.
+2. Add a Line chart visual with NS $ measure on the Y Axis, GM % measure on the secondary Y Axis and months on the X Axis.
+3. Disable X and Y Axis Titles. Set X Axis type as Categorical. Add Data Markers.
+4.  Since we see a scroll bar on the Tooltip we can change the size to custom Height 300px and Width 400px.
+5. Configure the tooltip for Customer Performance & Perfromance Plot visuals since they involve customers from Visual Properties → Tooltips and hide the tooltip page from the report.
+6. Now we’ll create a custom title to reflect the customer for whom the tooltip is being shown. Sales Trend Tooltip Title = "NS $ & GM % Trend for " & SELECTEDVALUE(dim_customer[customer])
+Configure this custom title for the tooltip using conditional title option.
