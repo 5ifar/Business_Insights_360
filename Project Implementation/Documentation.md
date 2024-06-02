@@ -736,3 +736,20 @@ P&L Statement, Customers/products by Net Sales visuals:
 Net Sales Performance visual:
 
 1. Replace the P&L LY measure in values field by P&L BM measure. Change the label to “vs BM”.
+
+### Step 12: Setup Dynamic GM% Parameter Slicer
+
+1. Create Numeric range parameter “Target Gap Tolerance” with values from 0 (0%) to 0.21 (20%) in increments of 0.01 (1%). Add the slicer to page.
+2. Auto generated Target Gap Tolerance paramter DAX code:
+
+   `Target gap Tolerance = GENERATESERIES(0, 0.21, 0.01)` → Change to Percentage data type with 0 decimals.
+
+   `Target gap Tolerance Value = SELECTEDVALUE('Target gap Tolerance'[Target gap Tolerance], 0)`
+3. Create a new measure for GM% variance between benchmark and actual value:  `GM % Variance = [GM % BM] - [GM %]`
+4. Now we’ll create a measure to help us filter when the GM % Variance is more than the Target gap Tolerance Value. We’ll set the values as 1 if TRUE or 0 if FALSE.
+
+   // `GM % Filter = IF([GM % Variance] >= SELECTEDVALUE('Target gap Tolerance'[Target gap Tolerance]), 1, 0)`
+
+   `GM % Filter = IF([GM % Variance] >= [Target gap Tolerance Value], 1, 0)`
+5. Apply GM % Filter measure as a visual level filter for the GM %, NS $ and GM $ Performance Plot visual by adding the measure and show items when value is 1.
+6. Now the Performance Plot will only show customer with higher GM % Variance than the Slicer value so that stakeholders can eventually fix underlying finance issue and move them to the top right quadrant with high NS $ and GM % values.
