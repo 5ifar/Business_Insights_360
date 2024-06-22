@@ -772,3 +772,5 @@ Net Sales Performance visual:
 5. Configure the tooltip for Customer Performance & Perfromance Plot visuals since they involve customers from Visual Properties → Tooltips and hide the tooltip page from the report.
 6. Now we’ll create a custom title to reflect the customer for whom the tooltip is being shown. Sales Trend Tooltip Title = "NS $ & GM % Trend for " & SELECTEDVALUE(dim_customer[customer])
 Configure this custom title for the tooltip using conditional title option.
+
+
