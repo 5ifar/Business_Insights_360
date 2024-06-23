@@ -761,7 +761,7 @@ Net Sales Performance visual:
 3. Align the Plots and Buttons on top of each other. Assign lables and create Plot and Button pair groups in selection tool.
 4. Create  Bookmarks - `GM % Shown` and `NP % Shown`. Unselect Data option from settings so that the static data when bookmark was created is not shown and instead the data gets updated dynamically.
 5. Now hide/unhide the groups and Update the Bookmarks.
-6. Configure Button Action to display corresponding Bookmarks. Show NP % Button → NP % Shown Bookmark & Show GM % Button → GM % Shown Bookmark
+6. Configure Button Action to display corresponding Bookmarks. `Show NP % Button → NP % Shown Bookmark` & `Show GM % Button → GM % Shown Bookmark`
 
 ### Step 14: Implement custom Tooltip to show NS $ and GM % Trend in Sales View
 
@@ -770,7 +770,12 @@ Net Sales Performance visual:
 3. Disable X and Y Axis Titles. Set X Axis type as Categorical. Add Data Markers.
 4.  Since we see a scroll bar on the Tooltip we can change the size to custom Height 300px and Width 400px.
 5. Configure the tooltip for Customer Performance & Perfromance Plot visuals since they involve customers from Visual Properties → Tooltips and hide the tooltip page from the report.
-6. Now we’ll create a custom title to reflect the customer for whom the tooltip is being shown. Sales Trend Tooltip Title = "NS $ & GM % Trend for " & SELECTEDVALUE(dim_customer[customer])
-Configure this custom title for the tooltip using conditional title option.
+6. Now we’ll create a custom title to reflect the customer for whom the tooltip is being shown. `Sales Trend Tooltip Title = "NS $ & GM % Trend for " & SELECTEDVALUE(dim_customer[customer])`
 
+   Configure this custom title for the tooltip using conditional title option.
 
+### Step 15: Fix Data Quality Issues
+
+- In dim_customer, replace AltiQ Exclusive → AtliQ Exclusive and change its channel Retail → Direct using M Code: `= Table.ReplaceValue(#"Replaced to AtliQ Exclusive India Value", each [channel], each if [customer_code]="90002011" then "Direct" else [channel], Replacer.ReplaceText,{"channel"})`
+- In dim_customer, we we 2 entries in customer for Amazon due to trailing space to deal with this select the column and use Trim from Transform Tab.
+- In Measures List, since we have a lot of them we can group similar ones by selecting → Right click → Display Folder. Create Folders: Abs Error, Forecast, GM, Net Error, Net Profit, NS, P&L.
