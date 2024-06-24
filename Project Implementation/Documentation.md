@@ -779,3 +779,13 @@ Net Sales Performance visual:
 - In dim_customer, replace AltiQ Exclusive → AtliQ Exclusive and change its channel Retail → Direct using M Code: `= Table.ReplaceValue(#"Replaced to AtliQ Exclusive India Value", each [channel], each if [customer_code]="90002011" then "Direct" else [channel], Replacer.ReplaceText,{"channel"})`
 - In dim_customer, we we 2 entries in customer for Amazon due to trailing space to deal with this select the column and use Trim from Transform Tab.
 - In Measures List, since we have a lot of them we can group similar ones by selecting → Right click → Display Folder. Create Folders: Abs Error, Forecast, GM, Net Error, Net Profit, NS, P&L.
+
+### Step 16: Create Support View
+
+- Create 5 new buttons to address the following support issues:
+1. Get an Issue resolved: Action: Navigate to Web URL & Tooltip: Navigate to the BI 360 Report - Ticket Management System to log a new ticket.
+2. Provide feedback: Action: Navigate to Web URL & Tooltip: Navigate to the BI 360 Report - Feedback Form to provide your valuable feedback.
+3. Add New requests: Action: Navigate to Web URL & Tooltip: Navigate to the BI 360 Report - Change Request Tool to commission new requests.
+4. Check out Contingency Plan: Action: Navigate to Web URL & Tooltip: Navigate to the BI 360 - Contingency Plan Documentation to review issue specific POCs.
+5. Power BI Documentation: Action: Navigate to Web URL & Tooltip: Learn how to consume insights better from Power BI.
+- Setup Nav Bar navigation from Home view to Support view and back.
