@@ -789,3 +789,18 @@ Net Sales Performance visual:
 4. Check out Contingency Plan: Action: Navigate to Web URL & Tooltip: Navigate to the BI 360 - Contingency Plan Documentation to review issue specific POCs.
 5. Power BI Documentation: Action: Navigate to Web URL & Tooltip: Learn how to consume insights better from Power BI.
 - Setup Nav Bar navigation from Home view to Support view and back.
+
+### Step 17: Create Info View:
+
+- Create a Text Box with following info:
+1. All the system data in tool is refreshed every month on 5th working day.
+2. System data such as Forecast, Actuals and Historical forecast are received from Global database.
+3. Non system data such as Target, Operational Expense and Market Share are refreshed on request.
+4. For FAQs click here.
+5. Download live excel version here.
+- Setup Nav Bar navigation from Home view to Info view and back.
+
+### Step 18: Save DAX Studio Metrics File:
+
+- Power BI → External Tools → DAX Studio → Advanced → View Metrics → You can see metrics and statistics related to your report and data.
+- Save Metrics → As CSV → Can be reloaded to DAX Studio later for analysis when needed.
