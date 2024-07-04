@@ -10,5 +10,5 @@ The entire project has been implemented using Microsoft Power BI Desktop 2.128.7
 
 The project data files have not been uploaded to this repository in compliance with Codebasics Data & Content Distribution Policy.
 
-## 📚 Table of Contents
+## Contents:
 Please find the resource links for the project below:
