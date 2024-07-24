@@ -804,3 +804,51 @@ Net Sales Performance visual:
 
 - Power BI → External Tools → DAX Studio → Advanced → View Metrics → You can see metrics and statistics related to your report and data.
 - Save Metrics → As CSV → Can be reloaded to DAX Studio later for analysis when needed.
+
+---
+
+## Phase 9: Executive View
+
+### Step 1: Importing Market Share Data:
+
+- Import the file marketshare-v2022.xlsx into the Power BI Backend i.e Power Query.
+- Market Share % will be the share of one of the 6 top players out of the total market share. Instead of calculating this manually as 6 individual columns:
+- We can select all the 6 players and unpivot the columns to merge them all as 6 new individual rows.
+- Change the new attribute column name to manufacturer and the values column name to sales_$.
+- Remove the additional sales_$ from all the rows in manufacturer column using Extract before delimiter tool.
+- Change fy_dec column name to fy and set data type as Text. Load the data to PBI Frontend.
+
+Designing Market Share View: Create new Market Share View and hide it from the report.
+
+### Step 2: Configure the Data Model:
+
+- sub_zone is a column in both market_share and dim_market however it is a many to many relationship. To tackle this we’ll create a new table that will contain unique values of sub_zone that can be used as a pathway to connect both the tables. We’ll do the same for category field as well since directly connecting it leads to many to many relationship.
+- Report View → Modelling → New table →  DAX Code: `sub_zone = ALLNOBLANKROW(dim_market[sub_zone])`
+- Report View → Modelling → New table →  DAX Code: `category = ALLNOBLANKROW(dim_product[category])`
+
+Table Relationships to be setup:
+
+|Primary Key (Dimension table) (1)||Secondary Key (Fact table) (*)|
+|-|-|-|
+|fiscal_year (fiscal_year)|→|fy (market_share)|
+|sub_zone (sub_zone)|→|sub_zone (dim_market)|
+|sub_zone (sub_zone)|→|sub_zone (market_share)|
+|category (category)|→|category (dim_product)|
+|category (category)|→|category (market_share)|
+
+### Step 3: Building Market Share View Visuals:
+
+- Create a Matrix visual with category field as Rows, manufacturer as Columns and Sum of sales_$ as Values field.
+- Create a new measure to calculate the Market Share %. Format as Percentage value with 1 decimal.
+
+  `Market Share % = DIVIDE(SUM(market_share[sales_$]), SUM(market_share[total_market_sales_$]), 0)`
+- Replace the Matrix visual Values field with Market Share % measure. Add fy_desc to the Columns field before manufacturer. Add sub_zone field as a Tile slicer to enable further drilling.
+- Now that we have all the data aligned convert the matrix visual into a ribbon visual with fy_desc field as X Axis, Market Share % as Y Axis and manufacturer field as the legend.
+- Enable data lables for the Ribbon visual. Sort Axis the visual by fy_desc in ascending order.
+- Also since Other Manufacturers takes up a lot of space and since it is not very helpful for comparision we can remove it by adding a visual level filter to unselect it from the manufacturers values.
+
+### Step 4: Creating the Executive View:
+
+- Duplicate the Supply Chain view and remove all the visuals except the Slicers and Nav Bar. Add the BM Slicer from the Sales View containing comparision with LY or target.
+- Update the Nav Bar Icons to display the Executive Icon as selected instead of Supply Chain.
+
