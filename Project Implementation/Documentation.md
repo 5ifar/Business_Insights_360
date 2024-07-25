@@ -878,3 +878,28 @@ Table Relationships to be setup:
 - We need Conditional Formatting for GM % column whenever there is decline compared to BM. For this we’ll use the GM % Variance measure.
 
   Visual → Cell Elements → Based on GM % Variance → Icons → If value > 0 and ≤ 100 then Red Down Arrow, If value = 0 then Yellow Side Arrow, If value ≥ Min and < 0 then Green Up Arrow.
+
+### Step 8: Creating Yearly Trend Chart:
+
+- Create a Line and Cluster Column Chart with fy_desc field on X Axis, NS $ field on Y Axis Column and GM %, Net Profit % & AtliQ MS % on Y Axis Line.
+- At this moment the chart will only show the data selected in the FY Slicer but we want the data to be shown for all the years. So we’ll change the FY Slicer Interaction to the Line Chart as None to avoid filtering.
+- Add Title as Yearly Trend by Revenue, GM %, Net Profit % and PC Market Share %.
+
+### Step 9: Creating Market Share Ribbon Chart Visual:
+
+- Move the Market Share % by Manufacturer Ribbon Chart visual that was created in the Market Share View to the Executive View.
+- At this moment the chart will only show the data selected in the FY Slicer but we want the data to be shown for all the years. So we’ll change the FY Slicer Interaction to the Ribbon Chart as None to avoid filtering.
+
+### Step 10: Creating Top 5 Customers & Products by Revenue Visuals:
+
+- Create a matrix visual with customers in Rows field and RC % and GM % in Values field.
+- The RC % column throws 100 % values in all Rows since in its formula we have used ALL to ignore only sub_zone filter. We’ll extend this to ignore all filters from market, customer or product.
+
+  `Updated RC % Measure: RC % = DIVIDE([NS $], CALCULATE([NS $], ALL(dim_market), ALL(dim_customer), ALL(dim_product)), 0)`
+- Since we only need the Top 5 Customers we’ll configure a Top N visual filter to display top 5 customers by Revenue i.e NS $. Set Tile to Top 5 Customers by Revenue.
+- Add Conditional Formatting on GM % Column whenever there is decline compared to BM. For this we’ll use the GM % Variance measure.
+
+  Visual → Cell Elements → Based on GM % Variance → Icons → If value > 0 and ≤ 100 then Red Down Arrow, If value = 0 then Yellow Side Arrow, If value ≥ Min and < 0 then Green Up Arrow.
+- Duplicate the above visual and replace customer in Rows field by products. Reconfigure the Top N visual filter to display top 5 products by Revenue i.e NS $. Set Tile to Top 5 Products by Revenue.
+
+---
