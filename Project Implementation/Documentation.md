@@ -852,3 +852,29 @@ Table Relationships to be setup:
 - Duplicate the Supply Chain view and remove all the visuals except the Slicers and Nav Bar. Add the BM Slicer from the Sales View containing comparision with LY or target.
 - Update the Nav Bar Icons to display the Executive Icon as selected instead of Supply Chain.
 
+### Step 5: Creating Executive KPI Cards:
+
+- Create a KPI Card Visual with NS $ measure as the Value field, fiscal_year as the Trend Axis field and NS $ BM Measure as the Target field. Set the Title as Net Sales and Target Label as BM.
+- Copy the above KPI Card and edit to GM % measure as the Value field and GM % BM measure as the Target field. Set the Title as GM %.
+- Copy the above KPI Card and edit to Net Profit % measure as the Value field and Net Profit % BM measure as the Target field. Set the Title as Net Profit %.
+- Copy the above KPI Card and edit to Forecast Accuracy % measure as the Value field and Forecast Accuracy % LY measure as the Target field. Set the Title as Forecast Accuracy.
+
+### Step 6: Creating Revenue (NS) by Division & Channel Donut Charts:
+
+- Add a Donut chart with NS $ Measure as the Vlaues field and divison as legend field. Align Legend to Top center. Change title to Revenue by Division. Set Detail label contents to only show Percentage values.
+- Duplicate the above chart and replace the divison by channel as legend field. Change title to Revenue by Channel.
+
+### Step 7: Creating Key Insights by Sub Zone Matrix visual:
+
+- Create a Matrix visual with sub_zone as Rows and NS $, GM %, Net Profit %, Net Error %, Risk as Columns.
+- Apply formatting to display values in Millions and with 1 decimal. Add Title as Key Insights by Sub Zone.
+- We need AtliQ’s Market Share as a Column. For this we’ll create a new measure to calculate the Market Share % measure with a filter for AtliQ.
+
+  `AtliQ MS % = CALCULATE([Market Share %], market_share[manufacturer] = "atliq")`
+- For adding Revenue (Net Sales) Contribution as a column we’ll need to create a new measure that will calculate the Percentage of NS foir that sub_zone across the total of all sub_zone.
+
+  `RC % = DIVIDE([NS $], CALCULATE([NS $], ALL(sub_zone[sub_zone])), 0)`
+- Add Footer as: BM: Benchmark | LY: Last Year | MS: Market Share | RC %: Revenue Contribution % | EI: Excess Inventory | OOS: Out of Stock
+- We need Conditional Formatting for GM % column whenever there is decline compared to BM. For this we’ll use the GM % Variance measure.
+
+  Visual → Cell Elements → Based on GM % Variance → Icons → If value > 0 and ≤ 100 then Red Down Arrow, If value = 0 then Yellow Side Arrow, If value ≥ Min and < 0 then Green Up Arrow.
