@@ -790,7 +790,7 @@ Net Sales Performance visual:
 5. Power BI Documentation: Action: Navigate to Web URL & Tooltip: Learn how to consume insights better from Power BI.
 - Setup Nav Bar navigation from Home view to Support view and back.
 
-### Step 17: Create Info View:
+### Step 17: Create Info View
 
 - Create a Text Box with following info:
 1. All the system data in tool is refreshed every month on 5th working day.
@@ -800,7 +800,7 @@ Net Sales Performance visual:
 5. Download live excel version here.
 - Setup Nav Bar navigation from Home view to Info view and back.
 
-### Step 18: Save DAX Studio Metrics File:
+### Step 18: Save DAX Studio Metrics File
 
 - Power BI → External Tools → DAX Studio → Advanced → View Metrics → You can see metrics and statistics related to your report and data.
 - Save Metrics → As CSV → Can be reloaded to DAX Studio later for analysis when needed.
@@ -809,7 +809,7 @@ Net Sales Performance visual:
 
 ## Phase 9: Executive View
 
-### Step 1: Importing Market Share Data:
+### Step 1: Importing Market Share Data
 
 - Import the file marketshare-v2022.xlsx into the Power BI Backend i.e Power Query.
 - Market Share % will be the share of one of the 6 top players out of the total market share. Instead of calculating this manually as 6 individual columns:
@@ -820,7 +820,7 @@ Net Sales Performance visual:
 
 Designing Market Share View: Create new Market Share View and hide it from the report.
 
-### Step 2: Configure the Data Model:
+### Step 2: Configure the Data Model
 
 - sub_zone is a column in both market_share and dim_market however it is a many to many relationship. To tackle this we’ll create a new table that will contain unique values of sub_zone that can be used as a pathway to connect both the tables. We’ll do the same for category field as well since directly connecting it leads to many to many relationship.
 - Report View → Modelling → New table →  DAX Code: `sub_zone = ALLNOBLANKROW(dim_market[sub_zone])`
@@ -836,7 +836,7 @@ Table Relationships to be setup:
 |category (category)|→|category (dim_product)|
 |category (category)|→|category (market_share)|
 
-### Step 3: Building Market Share View Visuals:
+### Step 3: Building Market Share View Visuals
 
 - Create a Matrix visual with category field as Rows, manufacturer as Columns and Sum of sales_$ as Values field.
 - Create a new measure to calculate the Market Share %. Format as Percentage value with 1 decimal.
@@ -847,24 +847,24 @@ Table Relationships to be setup:
 - Enable data lables for the Ribbon visual. Sort Axis the visual by fy_desc in ascending order.
 - Also since Other Manufacturers takes up a lot of space and since it is not very helpful for comparision we can remove it by adding a visual level filter to unselect it from the manufacturers values.
 
-### Step 4: Creating the Executive View:
+### Step 4: Creating the Executive View
 
 - Duplicate the Supply Chain view and remove all the visuals except the Slicers and Nav Bar. Add the BM Slicer from the Sales View containing comparision with LY or target.
 - Update the Nav Bar Icons to display the Executive Icon as selected instead of Supply Chain.
 
-### Step 5: Creating Executive KPI Cards:
+### Step 5: Creating Executive KPI Cards
 
 - Create a KPI Card Visual with NS $ measure as the Value field, fiscal_year as the Trend Axis field and NS $ BM Measure as the Target field. Set the Title as Net Sales and Target Label as BM.
 - Copy the above KPI Card and edit to GM % measure as the Value field and GM % BM measure as the Target field. Set the Title as GM %.
 - Copy the above KPI Card and edit to Net Profit % measure as the Value field and Net Profit % BM measure as the Target field. Set the Title as Net Profit %.
 - Copy the above KPI Card and edit to Forecast Accuracy % measure as the Value field and Forecast Accuracy % LY measure as the Target field. Set the Title as Forecast Accuracy.
 
-### Step 6: Creating Revenue (NS) by Division & Channel Donut Charts:
+### Step 6: Creating Revenue (NS) by Division & Channel Donut Charts
 
 - Add a Donut chart with NS $ Measure as the Vlaues field and divison as legend field. Align Legend to Top center. Change title to Revenue by Division. Set Detail label contents to only show Percentage values.
 - Duplicate the above chart and replace the divison by channel as legend field. Change title to Revenue by Channel.
 
-### Step 7: Creating Key Insights by Sub Zone Matrix visual:
+### Step 7: Creating Key Insights by Sub Zone Matrix visual
 
 - Create a Matrix visual with sub_zone as Rows and NS $, GM %, Net Profit %, Net Error %, Risk as Columns.
 - Apply formatting to display values in Millions and with 1 decimal. Add Title as Key Insights by Sub Zone.
@@ -879,18 +879,18 @@ Table Relationships to be setup:
 
   Visual → Cell Elements → Based on GM % Variance → Icons → If value > 0 and ≤ 100 then Red Down Arrow, If value = 0 then Yellow Side Arrow, If value ≥ Min and < 0 then Green Up Arrow.
 
-### Step 8: Creating Yearly Trend Chart:
+### Step 8: Creating Yearly Trend Chart
 
 - Create a Line and Cluster Column Chart with fy_desc field on X Axis, NS $ field on Y Axis Column and GM %, Net Profit % & AtliQ MS % on Y Axis Line.
 - At this moment the chart will only show the data selected in the FY Slicer but we want the data to be shown for all the years. So we’ll change the FY Slicer Interaction to the Line Chart as None to avoid filtering.
 - Add Title as Yearly Trend by Revenue, GM %, Net Profit % and PC Market Share %.
 
-### Step 9: Creating Market Share Ribbon Chart Visual:
+### Step 9: Creating Market Share Ribbon Chart Visual
 
 - Move the Market Share % by Manufacturer Ribbon Chart visual that was created in the Market Share View to the Executive View.
 - At this moment the chart will only show the data selected in the FY Slicer but we want the data to be shown for all the years. So we’ll change the FY Slicer Interaction to the Ribbon Chart as None to avoid filtering.
 
-### Step 10: Creating Top 5 Customers & Products by Revenue Visuals:
+### Step 10: Creating Top 5 Customers & Products by Revenue Visuals
 
 - Create a matrix visual with customers in Rows field and RC % and GM % in Values field.
 - The RC % column throws 100 % values in all Rows since in its formula we have used ALL to ignore only sub_zone filter. We’ll extend this to ignore all filters from market, customer or product.
