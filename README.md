@@ -12,6 +12,7 @@ The project data files have not been uploaded to this repository in compliance w
 ## Contents:
 Please find the sectional links for the project below:
 - [Introduction to AtliQ Hardware](#introduction-to-atliq-hardware)
+- [Project Objective](#project-objective)
 - [Tools used & Methodologies implemented](#tools-used)
 - [About the Dataset](#about-the-dataset)
   - [Data Sources](#data-sources)
@@ -32,6 +33,17 @@ Please find the sectional links for the project below:
   2. E-commerce Customer: Online websites E.g. Amazon, Flipkart
 - AtliQ Hardwares also has a minor B2C business model wherein they own stores: AtliQ E-store and AtliQ Exclusive. These are called Direct channels.
 - They also have Distributors in some countries with restricted trade. E.g. Neptune
+
+## Project Objective:
+AltiQ Hardware, a global leader in computers and accessories, faced unexpected losses after opening a store in America. These setbacks were identified to be caused due to reliance on outdated methods such as Excel for data analysis. To address this issue, the company's leadership recognized the need for a transformative approach to leveraging data for informed decision-making. With competitors boasting robust analytics teams, AltiQ Hardware recognizes the urgent need to develop its analytics capabilities using Power BI to thrive in the industry.
+
+To outshine competitors, they've adopted Power BI for analytics with 1.8 million transaction records from Excel, CSV, and MySQL. The Power BI Dashboard includes:
+- Home Page: Central navigation for Dashboard.
+- Finance: Enhances financial planning.
+- Sales: Boosts revenue and market share.
+- Marketing: Elevates brand visibility.
+- Supply Chain: Optimizes inventory management.
+- Executive: Provides top management overview.
 
 ## Tools used:
 1. Microsoft Power BI: for Data ETL, Data Modelling, Data Visualization & Dashboarding
