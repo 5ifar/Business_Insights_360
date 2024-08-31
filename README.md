@@ -23,7 +23,7 @@ Please find the sectional links for the project below:
 
 ---
 
-### [Live BI 360 Dashboard Link](https://app.powerbi.com/view?r=eyJrIjoiM2UwZTJjOWQtYjA0MC00ZDVlLThiYTMtZGY4NDc1YzRkYTZiIiwidCI6ImM2ZTU0OWIzLTVmNDUtNDAzMi1hYWU5LWQ0MjQ0ZGM1YjJjNCJ9)
+## [Live Business Insights 360 Dashboard Link](https://app.powerbi.com/view?r=eyJrIjoiM2UwZTJjOWQtYjA0MC00ZDVlLThiYTMtZGY4NDc1YzRkYTZiIiwidCI6ImM2ZTU0OWIzLTVmNDUtNDAzMi1hYWU5LWQ0MjQ0ZGM1YjJjNCJ9)
 
 ---
 
