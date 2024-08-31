@@ -11,7 +11,7 @@ The project data files have not been uploaded to this repository in compliance w
 
 ## Contents:
 Please find the sectional links for the project below:
-- [Live BI 360 Dashboard Link](https://app.powerbi.com/view?r=eyJrIjoiM2UwZTJjOWQtYjA0MC00ZDVlLThiYTMtZGY4NDc1YzRkYTZiIiwidCI6ImM2ZTU0OWIzLTVmNDUtNDAzMi1hYWU5LWQ0MjQ0ZGM1YjJjNCJ9)
+- [BI 360 Live Dashboard Link](https://app.powerbi.com/view?r=eyJrIjoiM2UwZTJjOWQtYjA0MC00ZDVlLThiYTMtZGY4NDc1YzRkYTZiIiwidCI6ImM2ZTU0OWIzLTVmNDUtNDAzMi1hYWU5LWQ0MjQ0ZGM1YjJjNCJ9)
 - [Introduction to AtliQ Hardware](#introduction-to-atliq-hardware)
 - [Project Objective](#project-objective)
 - [Tools used & Methodologies implemented](#tools-used)
@@ -20,10 +20,12 @@ Please find the sectional links for the project below:
   - [Data Integrity](#data-integrity)
 - [Data Model](#data-model)
 - [Project Implementation](#project-implementation)
+- [BI 360 Dashboard Overview](#bi-360-dashboard-overview)
+- [Conclusion](#conclusion)
 
 ---
 
-## [Live Business Insights 360 Dashboard Link](https://app.powerbi.com/view?r=eyJrIjoiM2UwZTJjOWQtYjA0MC00ZDVlLThiYTMtZGY4NDc1YzRkYTZiIiwidCI6ImM2ZTU0OWIzLTVmNDUtNDAzMi1hYWU5LWQ0MjQ0ZGM1YjJjNCJ9)
+## [Business Insights 360 Live Dashboard Link](https://app.powerbi.com/view?r=eyJrIjoiM2UwZTJjOWQtYjA0MC00ZDVlLThiYTMtZGY4NDc1YzRkYTZiIiwidCI6ImM2ZTU0OWIzLTVmNDUtNDAzMi1hYWU5LWQ0MjQ0ZGM1YjJjNCJ9)
 
 ---
 
@@ -68,26 +70,29 @@ To outshine competitors, they've adopted Power BI for analytics with 1.8 million
 ## About the Dataset:
 
 ### Data Sources:
-The dataset contains 11 tables in total, namely -
-- dim_customer: 209 records | 5 columns
-- dim_market: 27 records | 3 columns
-- dim_product: 397 records | 6 columns
-- fact_forecast_monthly: 1,885,941 records | 4 columns
-- dim_freight_cost: 135 records | 4 columns
-- dim_manufacturing_cost: 1,197 records | 3 columns
-- dim_market_share: 737 records | 6 columns
-- dim_ns_gm_target: 321 records | 5 columns
-- dim_operational_expense: 113 records | 4 columns
-- dim_post_invoice_deductions: 2,063,076 records | 5 columns
-- fact_sales_monthly: 1,885,941 records | 4 columns
+The dataset contains 11 tables in total, namely:
+- From gdb041 MySQL Server:
+  - dim_customer: 209 records | 5 columns
+  - dim_market: 27 records | 3 columns
+  - dim_product: 397 records | 6 columns
+  - fact_forecast_monthly: 1,885,941 records | 4 columns
+  - fact_sales_monthly: 1,885,941 records | 4 columns
+- From gdb041 MySQL Server:
+  - freight_cost: 135 records | 4 columns
+  - manufacturing_cost: 1,197 records | 3 columns
+  - post_invoice_deductions: 2,063,076 records | 5 columns
+- Excel Files:
+  - market_share: 737 records | 6 columns
+  - operational_expense: 113 records | 4 columns
+  - ns_gm_target: 321 records | 5 columns
 
 ## Data Integrity:
 ROCCC Evaluation:
 - Reliability: MED - The raw dataset is created and updated by Codebasics. It has total 9 files. All of them were utilized in the analysis.
 - Originality: HIGH - First party provider (Codebasics)
 - Comprehensiveness: HIGH - Total 11 Files with a total of around 5.8 Million records were provided. Dataset contains multiple dimension parameters for Customers & Products as well as comprehensive sales transaction data.
-- Current: LOW - Dataset was updated upto FY 2022 i.e almost 2 years old. So its not very relevant. Any trends observed and insights gained need to be comprehended as a general (not FY-specific) trend.
-- Citation: LOW - No official citation/reference available.
+- Current: MED - Dataset was updated upto FY 2022 i.e almost 2 years old. So its not very relevant. Any trends observed and insights gained need to be comprehended as a general (not FY-specific) trend.
+- Citation: HIGH - Official citation/reference available.
 
 ---
 
@@ -169,5 +174,50 @@ Please find the documentation links for the project phase-wise implementation be
   - [Creating Yearly Trend Chart](https://github.com/5ifar/Business_Insights_360/blob/main/Project%20Implementation/Documentation.md#step-8-creating-yearly-trend-chart)
   - [Creating Market Share Ribbon Chart Visual](https://github.com/5ifar/Business_Insights_360/blob/main/Project%20Implementation/Documentation.md#step-9-creating-market-share-ribbon-chart-visual)
   - [Creating Top 5 Customers & Products by Revenue Visuals](https://github.com/5ifar/Business_Insights_360/blob/main/Project%20Implementation/Documentation.md#step-10-creating-top-5-customers--products-by-revenue-visuals)
+
+---
+
+## BI 360 Dashboard Overview:
+
+### I. Home View: Dashboard Central navigation with buttons to navigate to all views.
+
+<div align="center"> <img src="https://github.com/5ifar/Business_Insights_360/blob/main/Power%20BI%20Dashboard/Dashboard%20Images/Business%20Insights%20360%20Report%20-%20Reinvented%20-%20Home%20View.png" width="100%" height="100%"> </div>
+
+### II. Finance View: Aimed at enhancing financial planning and cost control. 
+
+Features P & L statement, Net Sales Trend over time, Net Sales Breakdown over Products & Customers and more.
+
+<div align="center"> <img src="https://github.com/5ifar/Business_Insights_360/blob/main/Power%20BI%20Dashboard/Dashboard%20Images/Business%20Insights%20360%20Report%20-%20Reinvented%20-%20Finance%20View.png" width="100%" height="100%"> </div>
+
+### III. Sales View: Aimed at boosting sales revenue and market share. 
+
+Features Customer performance by NS & GM %, Gross Margin % Variance across Customers & Products, NS Breakdown and more.
+
+<div align="center"> <img src="https://github.com/5ifar/Business_Insights_360/blob/main/Power%20BI%20Dashboard/Dashboard%20Images/Business%20Insights%20360%20Report%20-%20Reinvented%20-%20Sales%20View.png" width="100%" height="100%"> </div>
+
+### IV. Marketing View: Aimed at elevating brand visibility and customer engagement. 
+
+Features Segment Performance by NP %, Gross Margin Breakdown, Net Profit % Variance across Regional/Segment Performance and more.
+
+<div align="center"> <img src="https://github.com/5ifar/Business_Insights_360/blob/main/Power%20BI%20Dashboard/Dashboard%20Images/Business%20Insights%20360%20Report%20-%20Reinvented%20-%20Marketing%20View.png" width="100%" height="100%"> </div>
+
+### V. Supply Chain View: Aimed at optimizing inventory management and better demand forecasting. 
+
+Features Forecast Accuracy and Net Error Trend, Forecast Accuracy % by Customer & Products and more.
+
+<div align="center"> <img src="https://github.com/5ifar/Business_Insights_360/blob/main/Power%20BI%20Dashboard/Dashboard%20Images/Business%20Insights%20360%20Report%20-%20Reinvented%20-%20Supply%20Chain%20View.png" width="100%" height="100%"> </div>
+
+### VI. Executive View: Aimed at providing top level view on overall organizational performance. 
+
+Features NS-GM%-NP%-FA% KPIs, Revenue Contribution by Divison/Channel, Top 5 Customers & Products, Sub Zone performance Market Share Trend and more.
+
+<div align="center"> <img src="https://github.com/5ifar/Business_Insights_360/blob/main/Power%20BI%20Dashboard/Dashboard%20Images/Business%20Insights%20360%20Report%20-%20Reinvented%20-%20Executive%20View.png" width="100%" height="100%"> </div>
+
+---
+
+## Conclusion:
+The Power BI Dashboard project for AtliQ Hardware provided a comprehensive, data-driven analysis across five critical business functions: Finance, Sales, Marketing, Supply Chain, and Executive. By integrating key business metrics such as Net Sales, Gross Margin, COGS, Net Profit % and Forecast Accuracy % the dashboard offers a holistic view of AtliQ's performance.
+
+The insights gained from this analysis revealed areas of interest, such as robust sales performance and precise forecast accuracy, as well as areas of opportunities for improvement in weak profit margins and supply chain efficiency. Through interactive visualizations and detailed metrics, the dashboard empowers Atliq Hardware's leadership to make informed, strategic decisions that align with their business goals.
 
 ---
