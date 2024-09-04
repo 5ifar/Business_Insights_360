@@ -181,37 +181,39 @@ Please find the documentation links for the project phase-wise implementation be
 
 ## BI 360 Dashboard Overview:
 
-### I. Home View: Dashboard Central navigation with buttons to navigate to all views.
+### I. Home View:
+
+Central navigation hub with easy access to all views, complete with support and information manual.
 
 <div align="center"> <img src="https://github.com/5ifar/Business_Insights_360/blob/main/Power%20BI%20Dashboard/Dashboard%20Images/Business%20Insights%20360%20Report%20-%20Reinvented%20-%20Home%20View.png" width="100%" height="100%"> </div>
 
-### II. Finance View: Aimed at enhancing financial planning and cost control. 
+### II. Finance View:
 
-Features P & L statement, Net Sales Trend over time, Net Sales Breakdown over Products & Customers and more.
+Enhances financial planning and cost control, featuring a P&L Statement, Net Sales Trend and Breakdown by Products/Customers and more.
 
 <div align="center"> <img src="https://github.com/5ifar/Business_Insights_360/blob/main/Power%20BI%20Dashboard/Dashboard%20Images/Business%20Insights%20360%20Report%20-%20Reinvented%20-%20Finance%20View.png" width="100%" height="100%"> </div>
 
-### III. Sales View: Aimed at boosting sales revenue and market share. 
+### III. Sales View:
 
-Features Customer performance by NS & GM %, Gross Margin % Variance across Customers & Products, NS Breakdown and more.
+Focuses on boosting sales revenue and tracking customer performance, including Gross Margin % Variance across Customers/Products and more.
 
 <div align="center"> <img src="https://github.com/5ifar/Business_Insights_360/blob/main/Power%20BI%20Dashboard/Dashboard%20Images/Business%20Insights%20360%20Report%20-%20Reinvented%20-%20Sales%20View.png" width="100%" height="100%"> </div>
 
-### IV. Marketing View: Aimed at elevating brand visibility and customer engagement. 
+### IV. Marketing View:
 
-Features Segment Performance by NP %, Gross Margin Breakdown, Net Profit % Variance across Regional/Segment Performance and more.
+Elevates brand visibility and evaluates marketing campaign ROI, with insights into Segment Performance, Net Profit % Variance across Regions and more.
 
 <div align="center"> <img src="https://github.com/5ifar/Business_Insights_360/blob/main/Power%20BI%20Dashboard/Dashboard%20Images/Business%20Insights%20360%20Report%20-%20Reinvented%20-%20Marketing%20View.png" width="100%" height="100%"> </div>
 
-### V. Supply Chain View: Aimed at optimizing inventory management and better demand forecasting. 
+### V. Supply Chain View:
 
-Features Forecast Accuracy and Net Error Trend, Forecast Accuracy % by Customer & Products and more.
+Optimizes inventory management and demand forecasting, featuring trends in Forecast Accuracy and Inventory Stock Risk by Customers/Products.
 
 <div align="center"> <img src="https://github.com/5ifar/Business_Insights_360/blob/main/Power%20BI%20Dashboard/Dashboard%20Images/Business%20Insights%20360%20Report%20-%20Reinvented%20-%20Supply%20Chain%20View.png" width="100%" height="100%"> </div>
 
-### VI. Executive View: Aimed at providing top level view on overall organizational performance. 
+### VI. Executive View:
 
-Features NS-GM%-NP%-FA% KPIs, Revenue Contribution by Divison/Channel, Top 5 Customers & Products, Sub Zone performance Market Share Trend and more.
+Provides a high-level overview of organizational performance for top AtliQ executives and senior management, showcasing business KPIs, Revenue Contributions by Division/Channel, Top Customers & Products, AtliQ's Market Share Trend and more.
 
 <div align="center"> <img src="https://github.com/5ifar/Business_Insights_360/blob/main/Power%20BI%20Dashboard/Dashboard%20Images/Business%20Insights%20360%20Report%20-%20Reinvented%20-%20Executive%20View.png" width="100%" height="100%"> </div>
 
