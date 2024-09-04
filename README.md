@@ -27,7 +27,7 @@ Please find the sectional links for the project below:
 
 ---
 
-## [Business Insights 360 Live Dashboard Link](https://app.powerbi.com/view?r=eyJrIjoiM2UwZTJjOWQtYjA0MC00ZDVlLThiYTMtZGY4NDc1YzRkYTZiIiwidCI6ImM2ZTU0OWIzLTVmNDUtNDAzMi1hYWU5LWQ0MjQ0ZGM1YjJjNCJ9)
+## [Business Insights 360 Live Dashboard Link](https://mavenanalytics.io/project/19189)
 
 ---
 
